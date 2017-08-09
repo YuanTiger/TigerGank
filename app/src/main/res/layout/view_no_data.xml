@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="168dp"
+        android:layout_height="91.7dp"
+        android:src="@mipmap/icon_nodata" />
+
+    <TextView
+        android:id="@+id/tv_nodata_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="center_horizontal"
+        android:text="@string/no_data"
+        android:textColor="@color/c_d5d5d5"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

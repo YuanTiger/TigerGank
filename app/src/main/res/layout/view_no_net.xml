@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@mipmap/icon_no_net" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="center_horizontal"
+        android:text="@string/net_error"
+        android:textColor="@color/c_999999"
+        android:textSize="14sp" />
+
+    <com.my.gank.view.BaseButton
+        android:id="@+id/bt_re_conn"
+        android:layout_width="120dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/re_try"
+        android:textSize="14sp" />
+
+</LinearLayout>
