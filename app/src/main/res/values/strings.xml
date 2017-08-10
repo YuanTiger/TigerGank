@@ -2,5 +2,7 @@
     <string name="app_name">Tiger妹纸</string>
     <string name="no_data">暂无数据</string>
     <string name="re_try">重试</string>
-    <string name="net_error">请检查您的网络</string>
+    <string name="net_error">连接失败，请检查您的网络</string>
+    <string name="net_break_off_tip">您的网络已断开，请检查</string>
+    <string name="go_setting">去设置</string>
 </resources>

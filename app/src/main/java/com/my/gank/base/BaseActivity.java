@@ -1,18 +1,24 @@
 package com.my.gank.base;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.my.gank.Constant;
 import com.my.gank.R;
+import com.my.gank.event.NetChangeEvent;
+import com.my.gank.utils.NetUtils;
 import com.my.gank.utils.ToastUtil;
 import com.my.gank.view.BaseButton;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +27,6 @@ import butterknife.ButterKnife;
  * 开始时间 2017年8月9日晚
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
 
     @Bind(R.id.toolbar)
     Toolbar toolBar;
@@ -33,6 +38,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     BaseButton btReConn;
     @Bind(R.id.view_data)
     FrameLayout viewData;
+    @Bind(R.id.bt_break_off_setting)
+    BaseButton btBreakOffSetting;
+    @Bind(R.id.ll_net_break_off)
+    LinearLayout llNetBreakOff;
+
+
     //页面状态控制器
     private static PageController pageController;
 
@@ -41,18 +52,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
 
         pageController = new PageController(this);
 
         pageController.initViewByStyle();
 
+
+        btBreakOffSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NetUtils.openSetting();
+            }
+        });
+
         initData(savedInstanceState);
+
+        if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
+            return;
+        }
+        sendRequest();
     }
+
+    public abstract void sendRequest();
 
     //获取布局Id
     public abstract int getLayId();
 
-    //初始化页面，代替onCreate()
+    //初始化页面，代替onCreate(),该方法中进行页面的一些初始化操作
     public abstract void initData(Bundle savedInstanceState);
 
     //获取初始化页面时的风格，默认使用页面Loading，点进去可查看详情
@@ -65,18 +92,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    //是否需要标题栏
+    //是否需要标题栏ToolBar
     public boolean isNeedToolbar() {
         return true;
     }
 
-    //初始化ToolBar，需要时重写即可
-    public void toolBarInit(Toolbar toolbar) {
+    //ToolBar设置，需要时重写即可
+    public void toolBarSetting(Toolbar toolbar) {
     }
 
+    void reTry() {
+        pageController.startLoading();
+        if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
+            ToastUtil.showLongToast(R.string.net_error);
+            return;
+        }
+        reConnection();
+    }
+
+
     //无网状态下的重连按钮点击事件，在需要的时候重写即可
-    public void reTry() {
-        ToastUtil.showLongToast("reTry()，重写此方法请删除 super.reTry()");
+    public void reConnection() {
     }
 
     //显示LoadingPage
@@ -110,10 +146,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NetChangeEvent event) {
+        llNetBreakOff.setVisibility(!event.isConnection ? View.VISIBLE : View.GONE);
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        EventBus.getDefault().unregister(this);
         if (pageController != null) {
             pageController.onDestory();
         }

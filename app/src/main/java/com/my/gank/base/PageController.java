@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Date  : 2017/8/9下午3:47
  * E-Mail:mengyuanzz@126.com
  * Desc  :
- * 页面状态控制器，每个页面持有一个，Activity使用弱引用
+ * 页面状态控制器，每个页面持有一个，使用弱引用来持有Activity
  * 存在于BaseActivity中，无需手动控制，在页面销毁时自动释放
  */
 
@@ -45,6 +45,7 @@ public class PageController {
     public void showDataPage() {
         hideLastPage();
         currentState = Constant.PageState.NORMAL;
+
         weakActivity.get().viewData.setVisibility(View.VISIBLE);
     }
 
@@ -94,6 +95,7 @@ public class PageController {
      * 显示Loading Dialog
      */
     public void showLoadingDialog() {
+        hideLastPage();
         currentState = Constant.PageState.LOADING_DIALOG;
 
         if (loadingDialog == null) {
@@ -123,7 +125,7 @@ public class PageController {
     /**
      * 根据页面状态隐藏对应页面
      */
-    private void hideLastPage() {
+    public void hideLastPage() {
         switch (currentState) {
             case Constant.PageState.LOADING:
                 weakActivity.get().findViewById(R.id.view_loading).setVisibility(View.GONE);
@@ -163,18 +165,9 @@ public class PageController {
                 showNoData();
                 break;
             case Constant.PageState.NORMAL:
-                showNoData();
+                showDataPage();
                 break;
         }
-    }
-
-
-    public void onDestory() {
-        if (weakActivity == null) {
-            return;
-        }
-        weakActivity.clear();
-        weakActivity = null;
     }
 
 
@@ -194,6 +187,13 @@ public class PageController {
         //是否需要ToolBar
         weakActivity.get().toolBar.setVisibility(weakActivity.get().isNeedToolbar() ? View.VISIBLE : View.GONE);
 
+        //启动页面Loading
+        startLoading();
+
+
+    }
+
+    public void startLoading() {
         //页面是否需要网络，需要的话首先进行网络状态判断
         if (weakActivity.get().isNeedNet()) {
             if (!NetUtils.isConnected()) {
@@ -201,6 +201,7 @@ public class PageController {
                 return;
             }
         }
+        hideLastPage();
         //到这里说明有网络 或者 不需要网络，即isNeedNet()返回false
         //根据页面加载方式，选择具体的页面样式
         //需要提一下的是，isNeedNet()返回false代表页面无需网络，那么getPageStyle()理应返回 Constant.PageStyle.NO_LOADING
@@ -217,5 +218,17 @@ public class PageController {
                 break;
         }
         showPageByState();
+    }
+
+    public int getCurrentState() {
+        return currentState;
+    }
+
+    public void onDestory() {
+        if (weakActivity == null) {
+            return;
+        }
+        weakActivity.clear();
+        weakActivity = null;
     }
 }

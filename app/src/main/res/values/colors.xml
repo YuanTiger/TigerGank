@@ -16,4 +16,5 @@
     <!-- 50%透明-->
     <color name="c_7f0090ff">#7f0090ff</color>
     <color name="c_7fffffff">#7fffffff</color>
+    <color name="c_7f666666">#7f666666</color>
 </resources>

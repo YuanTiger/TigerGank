@@ -2,6 +2,10 @@ package com.my.gank.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+
+import com.my.gank.receiver.NetworkChangeReceiver;
 
 /**
  * Author：mengyuan
@@ -19,5 +23,13 @@ public class App extends Application {
         super.onCreate();
 
         context = this.getApplicationContext();
+
+        //注册
+        NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeReceiver, filter);
     }
+
+
 }

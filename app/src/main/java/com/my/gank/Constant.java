@@ -17,8 +17,6 @@ public class Constant {
         int LOADING_DIALOG = 2;
         //无网
         int NO_NET = 3;
-        //在页面初始化成功后，网络断开
-        int NET_BREAK_OFF = 4;
         //无数据
         int NO_DATA = 5;
         //正常状态

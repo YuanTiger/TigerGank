@@ -11,30 +11,64 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:background="@color/c_0090ff"
-        android:layout_height="?attr/actionBarSize" />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/c_3f51b5" />
 
-
-    <include
-        android:id="@+id/view_loading"
-        layout="@layout/view_loading"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/view_no_data"
-        layout="@layout/view_no_data"
-        android:visibility="gone" />
-
-    <include
-        android:id="@+id/view_no_net"
-        layout="@layout/view_no_net"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:id="@+id/view_data"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
 
+
+        <include
+            android:id="@+id/view_loading"
+            layout="@layout/view_loading"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/view_no_data"
+            layout="@layout/view_no_data"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/view_no_net"
+            layout="@layout/view_no_net"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:id="@+id/view_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_net_break_off"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/c_7f666666"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/net_break_off_tip"
+                android:textColor="@color/c_ffffff"
+                android:textSize="12sp" />
+
+            <com.my.gank.view.BaseButton
+                android:id="@+id/bt_break_off_setting"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:text="@string/go_setting"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

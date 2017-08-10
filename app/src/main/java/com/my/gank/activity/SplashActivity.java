@@ -26,6 +26,36 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+    }
+
+    @Override
+    public void sendRequest() {
+        requestTest(false);
+    }
+
+
+    @Override
+    public void reConnection() {
+        requestTest(true);
+    }
+
+    @Override
+    public int getPageStyle() {
+        return Constant.PageStyle.LOADING_PAGE;
+//        return Constant.PageStyle.LOADING_DIALOG;
+//        return Constant.PageStyle.NO_LOADING;
+    }
+
+    @Override
+    public boolean isNeedNet() {
+        return true;
+    }
+
+
+    /**
+     * 模拟5秒请求
+     */
+    private void requestTest(final boolean isSuccess) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +64,11 @@ public class SplashActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showData();
+                            if (isSuccess) {
+                                showData();
+                            } else {
+                                showNoDataPage();
+                            }
                         }
                     });
                 } catch (InterruptedException e) {
@@ -42,10 +76,5 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         }).start();
-    }
-
-    @Override
-    public int getPageStyle() {
-        return Constant.PageStyle.LOADING_PAGE;
     }
 }

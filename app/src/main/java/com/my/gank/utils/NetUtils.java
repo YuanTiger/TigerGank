@@ -49,13 +49,20 @@ public final class NetUtils {
     }
 
     /**
+     * 打开设置界面
+     */
+    public static void openSetting() {
+        App.context.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    /**
      * 获取活动网络信息
      * <p>需添加权限 {@code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>}</p>
      *
      * @return NetworkInfo
      */
     private static NetworkInfo getActiveNetworkInfo() {
-        return ((ConnectivityManager)App.context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        return ((ConnectivityManager) App.context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
     }
 
     /**
@@ -68,7 +75,6 @@ public final class NetUtils {
         NetworkInfo info = getActiveNetworkInfo();
         return info != null && info.isConnected();
     }
-
 
 
     /**
@@ -157,7 +163,7 @@ public final class NetUtils {
      * @return {@code true}: 连接<br>{@code false}: 未连接
      */
     public static boolean isWifiConnected() {
-        ConnectivityManager cm = (ConnectivityManager)App.context
+        ConnectivityManager cm = (ConnectivityManager) App.context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm != null && cm.getActiveNetworkInfo() != null
                 && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;

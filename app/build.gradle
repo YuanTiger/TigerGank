@@ -19,7 +19,7 @@ android {
         }
 
         release {
-            buildConfigField 'Boolean', 'isDebug', 'true'
+            buildConfigField 'Boolean', 'isDebug', 'false'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -36,5 +36,6 @@ dependencies {
 
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
     testCompile 'junit:junit:4.12'
 }
