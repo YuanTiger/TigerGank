@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * 开始时间 2017年8月9日晚
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity{
 
     @Bind(R.id.toolbar)
     Toolbar toolBar;
@@ -58,7 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         pageController.initViewByStyle();
 
-
+        //顶部网络状态监听栏设置按钮点击事件
         btBreakOffSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
 
         initData(savedInstanceState);
-
+        //如果没有网络，不发出请求
         if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
             return;
         }
@@ -101,6 +101,39 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void toolBarSetting(Toolbar toolbar) {
     }
 
+    //无网状态下的重连按钮点击事件
+    public abstract void reConnection();
+
+    //显示 Loading Page
+    public void showLoadingPage() {
+        pageController.showLoadingPage();
+    }
+
+    //显示 Loading Dialog
+    public void showLoadingDialog() {
+        pageController.showLoadingDialog();
+    }
+
+    //显示 无数据 Page
+    public void showNoDataPage() {
+        pageController.showNoData();
+    }
+
+    //显示 无数据 Page
+    public void showNoDataPage(String message) {
+        pageController.showNoData(message);
+    }
+
+    //显示 无网 Page
+    public void showNoNetPage() {
+        pageController.showNoNet();
+    }
+
+    //显示 数据 Page
+    public void showData() {
+        pageController.showDataPage();
+    }
+
     void reTry() {
         pageController.startLoading();
         if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
@@ -108,41 +141,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             return;
         }
         reConnection();
-    }
-
-
-    //无网状态下的重连按钮点击事件，在需要的时候重写即可
-    public void reConnection() {
-    }
-
-    //显示LoadingPage
-    public void showLoadingPage() {
-        pageController.showLoadingPage();
-    }
-
-    //显示Loading Dialog
-    public void showLoadingDialog() {
-        pageController.showLoadingDialog();
-    }
-
-    //显示无数据Page
-    public void showNoDataPage() {
-        pageController.showNoData();
-    }
-
-    //显示无数据Page
-    public void showNoDataPage(String message) {
-        pageController.showNoData(message);
-    }
-
-    //显示无网Page
-    public void showNoNetPage() {
-        pageController.showNoNet();
-    }
-
-    //显示数据页面
-    public void showData() {
-        pageController.showDataPage();
     }
 
 

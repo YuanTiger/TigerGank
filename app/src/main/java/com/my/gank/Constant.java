@@ -18,9 +18,9 @@ public class Constant {
         //无网
         int NO_NET = 3;
         //无数据
-        int NO_DATA = 5;
+        int NO_DATA = 4;
         //正常状态
-        int NORMAL = 6;
+        int NORMAL = 5;
     }
 
 
@@ -32,5 +32,11 @@ public class Constant {
         int LOADING_DIALOG = 2;
         //进入页面时无需等待，用于没有接口请求的页面
         int NO_LOADING = 3;
+    }
+
+    public interface URL {
+        String BASE_URL = "http://gank.io/api/";
+        //首页
+        String HOME = BASE_URL + "data/Android/10/1";
     }
 }

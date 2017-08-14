@@ -9,6 +9,8 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "0.1"
+        // dex突破65535的限制
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,9 +35,12 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
 
-
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.alibaba:fastjson:+'
     testCompile 'junit:junit:4.12'
 }

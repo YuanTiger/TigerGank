@@ -53,7 +53,7 @@ public class PageController {
      * 显示无数据View
      */
     public void showNoData() {
-        showNoData(App.context.getString(R.string.no_data));
+        showNoData(BaseApp.context.getString(R.string.no_data));
     }
 
     /**
@@ -95,14 +95,22 @@ public class PageController {
      * 显示Loading Dialog
      */
     public void showLoadingDialog() {
-        hideLastPage();
-        currentState = Constant.PageState.LOADING_DIALOG;
 
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(weakActivity.get());
         }
         loadingDialog.setMessage("请稍候...");
         loadingDialog.show();
+    }
+
+    /**
+     * 隐藏Loading Dialog
+     */
+    public void hideLoadingDialog() {
+        if (loadingDialog == null) {
+            return;
+        }
+        loadingDialog.cancel();
     }
 
     /**
@@ -131,9 +139,7 @@ public class PageController {
                 weakActivity.get().findViewById(R.id.view_loading).setVisibility(View.GONE);
                 break;
             case Constant.PageState.LOADING_DIALOG:
-                if (loadingDialog != null) {
-                    loadingDialog.cancel();
-                }
+                hideLoadingDialog();
                 break;
             case Constant.PageState.NO_NET:
                 weakActivity.get().findViewById(R.id.view_no_net).setVisibility(View.GONE);

@@ -9,7 +9,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
-import com.my.gank.base.App;
+import com.my.gank.base.BaseApp;
 
 /**
  * 屏幕分辨率转换工具
@@ -84,7 +84,7 @@ public class ScreenUtil {
      * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
      */
     public static int px2dp(float pxValue) {
-        final float scale = getDisplayMetrics(App.context).density;
+        final float scale = getDisplayMetrics(BaseApp.context).density;
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -105,14 +105,14 @@ public class ScreenUtil {
      * 根据手机的分辨率从 dp 的单位 转成为 px
      */
     public static int dp2Px( int dp) {
-        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getDisplayMetrics(App.context)) + 0.5f);
+        return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getDisplayMetrics(BaseApp.context)) + 0.5f);
     }
 
     /**
      * 根据手机的分辨率从 sp(字体) 的单位 转成为 px
      */
     public static int sp2Px( int spValue) {
-        final float fontScale = getDisplayMetrics(App.context).scaledDensity;
+        final float fontScale = getDisplayMetrics(BaseApp.context).scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 
@@ -120,14 +120,14 @@ public class ScreenUtil {
      * 当前屏幕高度
      */
     public static int getCurrentScreenHeight() {
-        return getDisplayMetrics(App.context).heightPixels;
+        return getDisplayMetrics(BaseApp.context).heightPixels;
     }
 
     /**
      * 当前屏幕宽度
      */
     public static int getCurrentScreenWidth() {
-        return getDisplayMetrics(App.context).widthPixels;
+        return getDisplayMetrics(BaseApp.context).widthPixels;
     }
 
     /**

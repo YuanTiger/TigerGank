@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
+import com.my.gank.bean.HomeBean;
+import com.my.gank.request.RequestManager;
+import com.my.gank.utils.ToastUtil;
 
 /**
  * Author：mengyuan
@@ -30,20 +33,18 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void sendRequest() {
-        requestTest(false);
+        requestTest();
     }
 
 
     @Override
     public void reConnection() {
-        requestTest(true);
+        requestTest();
     }
 
     @Override
     public int getPageStyle() {
         return Constant.PageStyle.LOADING_PAGE;
-//        return Constant.PageStyle.LOADING_DIALOG;
-//        return Constant.PageStyle.NO_LOADING;
     }
 
     @Override
@@ -52,29 +53,20 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-    /**
-     * 模拟5秒请求
-     */
-    private void requestTest(final boolean isSuccess) {
-        new Thread(new Runnable() {
+    private void requestTest() {
+        RequestManager.getInstance().getAsync(Constant.URL.HOME, new RequestManager.MyRequestCallback<HomeBean>() {
+
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isSuccess) {
-                                showData();
-                            } else {
-                                showNoDataPage();
-                            }
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            public void success(HomeBean data) {
+                showData();
+                ToastUtil.showLongToast(data.results.get(0).desc);
             }
-        }).start();
+
+            @Override
+            public void failed(String message) {
+                ToastUtil.showLongToast(message);
+                showNoDataPage();
+            }
+        });
     }
 }

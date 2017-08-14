@@ -1,16 +1,17 @@
 package com.my.gank.base;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 /**
  * MVP
  * P extends BasePresenter
  */
-public abstract class BasePresenter<MvpView extends IBaseView> {
+public class BasePresenter<T extends BaseView> {
 
-    protected WeakReference<MvpView> viewWeakReference;
+    protected WeakReference<T> viewWeakReference;
 
-    public BasePresenter(MvpView mvpView) {
+    public BasePresenter(T mvpView) {
         viewWeakReference = new WeakReference<>(mvpView);
     }
 
