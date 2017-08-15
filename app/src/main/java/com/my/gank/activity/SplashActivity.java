@@ -1,14 +1,12 @@
 package com.my.gank.activity;
 
-import android.graphics.drawable.AnimationDrawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
-import com.my.gank.bean.HomeBean;
+import com.my.gank.bean.AllGankBean;
 import com.my.gank.request.RequestManager;
 import com.my.gank.utils.ToastUtil;
 
@@ -29,6 +27,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
     @Override
@@ -54,19 +54,6 @@ public class SplashActivity extends BaseActivity {
 
 
     private void requestTest() {
-        RequestManager.getInstance().getAsync(Constant.URL.HOME, new RequestManager.MyRequestCallback<HomeBean>() {
 
-            @Override
-            public void success(HomeBean data) {
-                showData();
-                ToastUtil.showLongToast(data.results.get(0).desc);
-            }
-
-            @Override
-            public void failed(String message) {
-                ToastUtil.showLongToast(message);
-                showNoDataPage();
-            }
-        });
     }
 }

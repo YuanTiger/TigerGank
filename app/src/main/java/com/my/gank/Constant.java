@@ -7,10 +7,14 @@ package com.my.gank;
  * Desc  :
  */
 
-public class Constant {
+public interface Constant {
+
+    //当日详情页条目TYPE
+    int TYPE_HOME_DETAIL_TITLE = 31;
+    int TYPE_HOME_DETAIL_ITEM = 32;
 
     //页面状态
-    public interface PageState {
+    interface PageState {
         //页面Loading中
         int LOADING = 1;
         //Dialog Loading中
@@ -25,7 +29,7 @@ public class Constant {
 
 
     //页面初始化风格
-    public interface PageStyle {
+    interface PageStyle {
         //进入页面时使用全局Loading来等待
         int LOADING_PAGE = 1;
         //进入页面时使用Dialog来等待
@@ -34,9 +38,18 @@ public class Constant {
         int NO_LOADING = 3;
     }
 
-    public interface URL {
+    interface URL {
         String BASE_URL = "http://gank.io/api/";
-        //首页
-        String HOME = BASE_URL + "data/Android/10/1";
+
+
+        //所有Gank
+        String ALL_GANK = BASE_URL + "data/Android/10/";//+pageIndex
+
+        //获取某几日的Gank数据，10代表一页的数据量，1代表页码
+        String HISTORY_LIST = BASE_URL + "history/content/10/";//+pageIndex
+        //获取特定日期的网站数据，需拼接日期
+        String HISTORY_DETAIL = BASE_URL + "day/";//2017/8/11
+        //获取有Gank消息的具体日期
+        String HISTORY_DAY = BASE_URL + "day/history";
     }
 }

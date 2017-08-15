@@ -9,6 +9,4 @@ package com.my.gank.base;
 
 public interface BaseView {
 
-    void setPresenter(BasePresenter presenter);
-
 }

@@ -8,15 +8,22 @@
     android:orientation="vertical">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/c_3f51b5" />
+        android:layout_height="wrap_content">
 
-    <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/c_3f51b5" />
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_weight="1"
+        android:layout_height="0dp">
 
 
         <include
@@ -62,13 +69,13 @@
             <com.my.gank.view.BaseButton
                 android:id="@+id/bt_break_off_setting"
                 android:layout_width="60dp"
-                android:gravity="center"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="@string/go_setting"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </FrameLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.my.gank.base;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -43,6 +44,7 @@ public class PageController {
      * 显示数据View
      */
     public void showDataPage() {
+
         hideLastPage();
         currentState = Constant.PageState.NORMAL;
 
@@ -62,6 +64,7 @@ public class PageController {
      * @param message 提示语
      */
     public void showNoData(String message) {
+
         hideLastPage();
         currentState = Constant.PageState.NO_DATA;
 
@@ -74,6 +77,7 @@ public class PageController {
      * 显示LoadingView
      */
     public void showLoadingPage() {
+
         hideLastPage();
         currentState = Constant.PageState.LOADING;
 
@@ -147,9 +151,6 @@ public class PageController {
             case Constant.PageState.NO_DATA:
                 weakActivity.get().findViewById(R.id.view_no_data).setVisibility(View.GONE);
                 break;
-            case Constant.PageState.NORMAL:
-                weakActivity.get().viewData.setVisibility(View.GONE);
-                break;
         }
     }
 
@@ -179,20 +180,29 @@ public class PageController {
 
     /**
      * 初始化页面
+     *
+     * @param savedInstanceState
      */
-    public void initViewByStyle() {
+    public void initViewByStyle(Bundle savedInstanceState) {
         //填充数据Layout
         int layoutId = weakActivity.get().getLayId();
         if (layoutId < 0) {
             throw new RuntimeException("请通过getLayId()设置布局");
         }
         View inflate = weakActivity.get().getLayoutInflater().inflate(layoutId, null);
-        ButterKnife.bind(inflate, weakActivity.get());
+
         weakActivity.get().viewData.addView(inflate);
+
+        ButterKnife.bind(weakActivity.get());
 
         //是否需要ToolBar
         weakActivity.get().toolBar.setVisibility(weakActivity.get().isNeedToolbar() ? View.VISIBLE : View.GONE);
-
+        //ToolBar初始化
+        if (weakActivity.get().isNeedToolbar()) {
+            weakActivity.get().toolBarSetting(weakActivity.get().toolBar);
+        }
+        //初始化页面
+        weakActivity.get().initData(savedInstanceState);
         //启动页面Loading
         startLoading();
 

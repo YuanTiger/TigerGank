@@ -11,8 +11,9 @@ public class BasePresenter<T extends BaseView> {
 
     protected WeakReference<T> viewWeakReference;
 
-    public BasePresenter(T mvpView) {
-        viewWeakReference = new WeakReference<>(mvpView);
+    public BasePresenter(T view) {
+        viewWeakReference = new WeakReference<>(view);
+
     }
 
 }

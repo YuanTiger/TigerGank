@@ -26,21 +26,14 @@ import butterknife.ButterKnife;
 /**
  * 开始时间 2017年8月9日晚
  */
-public abstract class BaseActivity extends AppCompatActivity{
+public abstract class BaseActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar)
     Toolbar toolBar;
-    @Bind(R.id.iv_loading)
     ImageView ivLoading;
-    @Bind(R.id.tv_nodata_desc)
     TextView tvNoDataDesc;
-    @Bind(R.id.bt_re_conn)
     BaseButton btReConn;
-    @Bind(R.id.view_data)
     FrameLayout viewData;
-    @Bind(R.id.bt_break_off_setting)
     BaseButton btBreakOffSetting;
-    @Bind(R.id.ll_net_break_off)
     LinearLayout llNetBreakOff;
 
 
@@ -51,12 +44,21 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        ButterKnife.bind(this);
+
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        ivLoading = (ImageView) findViewById(R.id.iv_loading);
+        tvNoDataDesc = (TextView) findViewById(R.id.tv_nodata_desc);
+        btReConn = (BaseButton) findViewById(R.id.bt_re_conn);
+        viewData = (FrameLayout) findViewById(R.id.view_data);
+        btBreakOffSetting = (BaseButton) findViewById(R.id.bt_break_off_setting);
+        llNetBreakOff = (LinearLayout) findViewById(R.id.ll_net_break_off);
+
+
         EventBus.getDefault().register(this);
 
         pageController = new PageController(this);
 
-        pageController.initViewByStyle();
+        pageController.initViewByStyle(savedInstanceState);
 
         //顶部网络状态监听栏设置按钮点击事件
         btBreakOffSetting.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity{
                 NetUtils.openSetting();
             }
         });
-
-        initData(savedInstanceState);
         //如果没有网络，不发出请求
         if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
             return;
@@ -99,6 +99,11 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     //ToolBar设置，需要时重写即可
     public void toolBarSetting(Toolbar toolbar) {
+        toolbar.setTitleTextColor(getResources().getColor(R.color.c_ffffff));
+    }
+
+    public Toolbar getToolBar() {
+        return toolBar;
     }
 
     //无网状态下的重连按钮点击事件
@@ -149,15 +154,21 @@ public abstract class BaseActivity extends AppCompatActivity{
         llNetBreakOff.setVisibility(!event.isConnection ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        if (pageController != null) {
+            pageController.onDestory();
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
-        if (pageController != null) {
-            pageController.onDestory();
-        }
+
     }
+
 
 }

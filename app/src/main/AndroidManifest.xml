@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.SplashActivity">
+
+        </activity>
+
+        <activity
+            android:name=".activity.HomeActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +29,7 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".activity.HomeDetailActivity" />
     </application>
 
 

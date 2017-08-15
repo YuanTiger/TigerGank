@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.my.gank.R;
 import com.my.gank.base.BaseApp;
 import com.my.gank.base.BaseBean;
 import com.my.gank.utils.LogUtil;
@@ -168,14 +169,26 @@ public class RequestManager {
         public void onResponse(Call call, final Response response) {
             final Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
+            String content = null;
+            try {
+                //获取body为一次性的，并且不可在主线程中进行
+                content = response.body().string();
+                LogUtil.i("request:",content);
+            } catch (IOException e) {
+                e.printStackTrace();
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        failed(BaseApp.context.getString(R.string.json_parse_error));
+                    }
+                });
+            }
+            final String finalContent = content;
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        success(JSON.parseObject(response.body().string(), entityClass));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    success(JSON.parseObject(finalContent, entityClass));
+
                 }
             });
         }
