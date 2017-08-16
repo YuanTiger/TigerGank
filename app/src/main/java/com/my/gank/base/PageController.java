@@ -44,7 +44,9 @@ public class PageController {
      * 显示数据View
      */
     public void showDataPage() {
-
+        if (weakActivity == null || weakActivity.get() == null) {
+            return;
+        }
         hideLastPage();
         currentState = Constant.PageState.NORMAL;
 
@@ -64,7 +66,9 @@ public class PageController {
      * @param message 提示语
      */
     public void showNoData(String message) {
-
+        if (weakActivity == null || weakActivity.get() == null) {
+            return;
+        }
         hideLastPage();
         currentState = Constant.PageState.NO_DATA;
 
@@ -77,7 +81,9 @@ public class PageController {
      * 显示LoadingView
      */
     public void showLoadingPage() {
-
+        if (weakActivity == null || weakActivity.get() == null) {
+            return;
+        }
         hideLastPage();
         currentState = Constant.PageState.LOADING;
 
@@ -99,7 +105,9 @@ public class PageController {
      * 显示Loading Dialog
      */
     public void showLoadingDialog() {
-
+        if (weakActivity == null || weakActivity.get() == null) {
+            return;
+        }
         if (loadingDialog == null) {
             loadingDialog = new LoadingDialog(weakActivity.get());
         }
@@ -121,6 +129,9 @@ public class PageController {
      * 显示无网View
      */
     public void showNoNet() {
+        if (weakActivity == null || weakActivity.get() == null) {
+            return;
+        }
         hideLastPage();
         currentState = Constant.PageState.NO_NET;
 
@@ -137,7 +148,8 @@ public class PageController {
     /**
      * 根据页面状态隐藏对应页面
      */
-    public void hideLastPage() {
+    private void hideLastPage() {
+
         switch (currentState) {
             case Constant.PageState.LOADING:
                 weakActivity.get().findViewById(R.id.view_loading).setVisibility(View.GONE);
@@ -150,6 +162,9 @@ public class PageController {
                 break;
             case Constant.PageState.NO_DATA:
                 weakActivity.get().findViewById(R.id.view_no_data).setVisibility(View.GONE);
+                break;
+            case Constant.PageState.NORMAL:
+                weakActivity.get().viewData.setVisibility(View.GONE);
                 break;
         }
     }
@@ -195,14 +210,14 @@ public class PageController {
 
         ButterKnife.bind(weakActivity.get());
 
+        //初始化页面
+        weakActivity.get().initData(savedInstanceState);
         //是否需要ToolBar
         weakActivity.get().toolBar.setVisibility(weakActivity.get().isNeedToolbar() ? View.VISIBLE : View.GONE);
-        //ToolBar初始化
+        //ToolBar初始化，如果需要的话
         if (weakActivity.get().isNeedToolbar()) {
             weakActivity.get().toolBarSetting(weakActivity.get().toolBar);
         }
-        //初始化页面
-        weakActivity.get().initData(savedInstanceState);
         //启动页面Loading
         startLoading();
 
@@ -246,5 +261,6 @@ public class PageController {
         }
         weakActivity.clear();
         weakActivity = null;
+        loadingDialog = null;
     }
 }

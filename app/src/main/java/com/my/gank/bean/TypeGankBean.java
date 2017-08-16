@@ -11,7 +11,7 @@ import java.util.List;
  * Desc  :
  */
 
-public class AllGankBean extends BaseBean {
+public class TypeGankBean extends BaseBean {
 
 
     public List<GankItemBean> results;

@@ -2,6 +2,7 @@ package com.my.gank.presenter;
 
 import com.my.gank.base.BasePresenter;
 import com.my.gank.bean.HomeAllBean;
+import com.my.gank.bean.TypeGankBean;
 import com.my.gank.contract.HomeContract;
 import com.my.gank.model.HomeModel;
 import com.my.gank.request.RequestManager;
@@ -30,12 +31,27 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
             @Override
             public void success(HomeAllBean data) {
 
-                viewWeakReference.get().getDataSuccess(data);
+                viewWeakReference.get().getAllDataSuccess(data);
             }
 
             @Override
             public void failed(String message) {
-                viewWeakReference.get().getDataFailed(message);
+                viewWeakReference.get().getAllDataFailed(message);
+            }
+        });
+    }
+
+    @Override
+    public void requestTypeDataList(String typeName, int pageIndex) {
+        model.requestTypeDataList(typeName, pageIndex, new RequestManager.MyRequestCallback<TypeGankBean>() {
+            @Override
+            public void success(TypeGankBean data) {
+                viewWeakReference.get().getTypeDataSuccess(data);
+            }
+
+            @Override
+            public void failed(String message) {
+                viewWeakReference.get().getTypeDataFailed(message);
             }
         });
     }

@@ -19,29 +19,41 @@
 
     <item
         android:id="@+id/menu_all"
-        android:title="@string/All" />
+        android:icon="@mipmap/icon_all"
+        android:title="@string/all" />
     <item
         android:id="@+id/menu_android"
+        android:icon="@mipmap/icon_android"
         android:title="@string/Android" />
     <item
         android:id="@+id/menu_ios"
+        android:icon="@mipmap/icon_ios"
         android:title="@string/iOS" />
     <item
         android:id="@+id/menu_sleep"
+        android:icon="@mipmap/icon_video"
+
         android:title="@string/sleepVedio" />
     <item
         android:id="@+id/menu_welfare"
-        android:title="@string/Welfare" />
+        android:icon="@mipmap/icon_welfare"
+
+        android:title="@string/welfare" />
     <item
         android:id="@+id/menu_resource"
+        android:icon="@mipmap/icon_resource"
         android:title="@string/resource" />
     <item
         android:id="@+id/menu_frontEnd"
-        android:title="@string/FrontEnd" />
+        android:icon="@mipmap/icon_fronend"
+
+        android:title="@string/frontEnd" />
     <item
         android:id="@+id/menu_recommend"
+        android:icon="@mipmap/icon_recommend"
         android:title="@string/recommend" />
     <item
         android:id="@+id/menu_App"
+        android:icon="@mipmap/icon_app"
         android:title="@string/App" />
 </menu>

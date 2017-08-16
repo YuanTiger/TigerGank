@@ -6,9 +6,6 @@ import android.os.Bundle;
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
-import com.my.gank.bean.AllGankBean;
-import com.my.gank.request.RequestManager;
-import com.my.gank.utils.ToastUtil;
 
 /**
  * Author：mengyuan

@@ -2,6 +2,7 @@ package com.my.gank.contract;
 
 import com.my.gank.base.BaseView;
 import com.my.gank.bean.HomeAllBean;
+import com.my.gank.bean.TypeGankBean;
 import com.my.gank.request.RequestManager;
 
 /**
@@ -14,20 +15,27 @@ import com.my.gank.request.RequestManager;
 public interface HomeContract {
 
     interface View extends BaseView {
-        void getDataSuccess(HomeAllBean data);
+        void getAllDataSuccess(HomeAllBean data);
 
-        void getDataFailed(String message);
+        void getAllDataFailed(String message);
 
+
+        void getTypeDataSuccess(TypeGankBean data);
+
+        void getTypeDataFailed(String message);
 
     }
 
     interface Presenter {
         void requestHistoryList(int pageIndex);
 
+        void requestTypeDataList(String typeName, int pageIndex);
     }
 
     interface Model {
         void requestHistoryList(int pageIndex, RequestManager.MyRequestCallback<HomeAllBean> callback);
+
+        void requestTypeDataList(String typeName, int pageIndex, RequestManager.MyRequestCallback<TypeGankBean> callback);
 
     }
 }

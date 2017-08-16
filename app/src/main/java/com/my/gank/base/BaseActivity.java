@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     //页面状态控制器
-    private static PageController pageController;
+    private PageController pageController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //ToolBar设置，需要时重写即可
     public void toolBarSetting(Toolbar toolbar) {
+        //标题颜色
         toolbar.setTitleTextColor(getResources().getColor(R.color.c_ffffff));
+        //回退按钮
+        toolbar.setNavigationIcon(R.drawable.back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     public Toolbar getToolBar() {

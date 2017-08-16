@@ -8,8 +8,10 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,12 +88,12 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        setSupportActionBar(getToolBar());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        //设置背景图
-        backdrop.setImageResource(R.mipmap.avatar);
-
+    @Override
+    public void toolBarSetting(Toolbar toolbar) {
+        super.toolBarSetting(toolbar);
+        toolbar.setTitle(date);
     }
 
     @Override
@@ -134,7 +136,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
         if (data.results.福利 != null) {
             //福利图
             Glide.with(this)
-                    .load(data.results.福利.get(0).url)
+                    .load(data.results.福利.get(0).url + Constant.URL.imageSize)
                     .centerCrop()
                     .into(backdrop);
         }
@@ -153,7 +155,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
             resultData.addAll(data.results.休息视频);
         }
         if (data.results.前端 != null && data.results.前端.size() > 0) {
-            resultData.add(new HomeDetailTileBean(getString(R.string.FrontEnd)));
+            resultData.add(new HomeDetailTileBean(getString(R.string.frontEnd)));
             resultData.addAll(data.results.前端);
         }
         if (data.results.瞎推荐 != null && data.results.瞎推荐.size() > 0) {
@@ -231,9 +233,25 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
     //--------------------------------Holder--------------------------------
     //条目Holder
     public class ItemHolder extends BaseRecyclerViewHolder<GankItemBean> {
+        @Bind(R.id.icon)
+        ImageView icon;
+        @Bind(R.id.tv_desc)
+        TextView tvDesc;
+
 
         public ItemHolder(int viewId, ViewGroup parent, int viewType) {
             super(viewId, parent, viewType);
+        }
+
+        @Override
+        public void refreshData(final GankItemBean data, int position) {
+            tvDesc.setText(data.desc);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    WebViewActivity.openUrl(HomeDetailActivity.this, data.url);
+                }
+            });
         }
     }
 

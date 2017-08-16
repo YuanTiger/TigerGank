@@ -8,7 +8,6 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.my.gank.receiver.NetworkChangeReceiver;
-import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Author：mengyuan
@@ -24,11 +23,11 @@ public class BaseApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //内存泄漏捕捉工具
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
+//        //内存泄漏捕捉工具
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
         context = this.getApplicationContext();
         //突破65535
         MultiDex.install(this);

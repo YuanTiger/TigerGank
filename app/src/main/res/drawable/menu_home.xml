@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 背景色 -->
+    <item android:gravity="center">
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <size
+
+                android:width="3dp"
+                android:height="35dp" />
+        </shape>
+    </item>
+
+    <item android:bottom="10dp" android:gravity="center">
+        <rotate android:fromDegrees="90">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/c_ffffff" />
+                <size android:height="26dp" />
+            </shape>
+        </rotate>
+    </item >
+    <item android:top="10dp"  android:gravity="center">
+        <rotate android:fromDegrees="90">
+            <shape android:shape="rectangle">
+
+                <solid android:color="@color/c_ffffff" />
+            </shape>
+        </rotate>
+    </item>
+
+
+    <item android:gravity="center">
+        <rotate android:fromDegrees="90">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/c_ffffff" />
+                <size android:height="26dp" />
+
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

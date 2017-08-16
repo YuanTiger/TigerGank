@@ -11,6 +11,6 @@
         android:padding="10dp"
         android:text="Gank"
         android:textColor="@color/c_000000"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>

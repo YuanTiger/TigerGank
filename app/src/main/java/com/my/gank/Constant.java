@@ -9,7 +9,7 @@ package com.my.gank;
 
 public interface Constant {
 
-    //当日详情页条目TYPE
+    //某日详情页条目TYPE
     int TYPE_HOME_DETAIL_TITLE = 31;
     int TYPE_HOME_DETAIL_ITEM = 32;
 
@@ -40,11 +40,12 @@ public interface Constant {
 
     interface URL {
         String BASE_URL = "http://gank.io/api/";
+        //图片大小
+        String imageSize = "?imageView2/0/w/250";
 
 
-        //所有Gank
-        String ALL_GANK = BASE_URL + "data/Android/10/";//+pageIndex
-
+        //所有Gank: /数据类型/一页数量/页码
+        String TYPE_GAK_DATA = BASE_URL + "data/";
         //获取某几日的Gank数据，10代表一页的数据量，1代表页码
         String HISTORY_LIST = BASE_URL + "history/content/10/";//+pageIndex
         //获取特定日期的网站数据，需拼接日期

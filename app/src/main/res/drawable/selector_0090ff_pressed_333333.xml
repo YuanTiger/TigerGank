@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--按压状态-->
+    <item android:drawable="@drawable/point_333333_size_16" android:state_pressed="true" />
+
+
+    <item android:drawable="@drawable/point_0090ff_size_16" />
+
+
+</selector>
