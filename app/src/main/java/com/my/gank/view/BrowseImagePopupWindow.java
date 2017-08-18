@@ -62,11 +62,9 @@ public class BrowseImagePopupWindow extends PopupWindow {
                 dismiss();
             }
         });
-//        this.setFocusable(true);
-        //点击外部关闭
-//        this.setOutsideTouchable(true);
-        //无需动画
-//        this.setAnimationStyle(0);
+        //获取焦点、等于优先响应物理按键
+        this.setFocusable(true);
+        
         this.setContentView(view);
         //设置大小
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
