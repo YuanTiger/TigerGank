@@ -74,6 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         sendRequest();
     }
 
+    //发送网络请求
     public abstract void sendRequest();
 
     //获取布局Id
@@ -92,12 +93,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         return true;
     }
 
-    //是否需要标题栏ToolBar
+    //是否需要标题栏ToolBar，默认是需要的。
     public boolean isNeedToolbar() {
         return true;
     }
 
-    //ToolBar设置，需要时重写即可
+    //ToolBar设置，需要时重写即可，如果不想要统一标准，子类重写时删除super.toolBarSetting(toolbar)即可
     public void toolBarSetting(Toolbar toolbar) {
         //标题颜色
         toolbar.setTitleTextColor(getResources().getColor(R.color.c_ffffff));
@@ -110,7 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
-
+    //返回ToolBar控件
     public Toolbar getToolBar() {
         return toolBar;
     }
@@ -148,7 +149,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         pageController.showDataPage();
     }
 
-    void reTry() {
+
+    protected void reTry() {
         pageController.startLoading();
         if (pageController.getCurrentState() == Constant.PageState.NO_NET) {
             ToastUtil.showLongToast(R.string.net_error);

@@ -7,40 +7,39 @@
     android:background="@color/c_ffffff"
     android:orientation="vertical">
 
-
-    <android.support.design.widget.AppBarLayout
+    <!--ToolBar-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/c_3f51b5"
+        android:minHeight="?attr/actionBarSize" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/c_3f51b5" />
-    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-
+        <!--Loading Page-->
         <include
             android:id="@+id/view_loading"
             layout="@layout/view_loading"
             android:visibility="gone" />
 
+        <!--无数据 Page-->
         <include
             android:id="@+id/view_no_data"
             layout="@layout/view_no_data"
             android:visibility="gone" />
 
+        <!--无网 Page-->
         <include
             android:id="@+id/view_no_net"
             layout="@layout/view_no_net"
             android:visibility="gone" />
 
+        <!--数据 Page-->
         <FrameLayout
             android:id="@+id/view_data"
             android:layout_width="match_parent"

@@ -153,6 +153,11 @@ public class RequestManager {
 
     }
 
+
+    /**
+     * 请求回调，对okHttp的请求回调进行进一步封装
+     * @param <T>
+     */
     public abstract static class MyRequestCallback<T extends BaseBean> implements Callback {
 
         //okHttp请求结果是在子线程，该Handler用户切换主线程进行回调
