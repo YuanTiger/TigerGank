@@ -51,21 +51,33 @@ todo：开发完成后会补充详细说明。
 并且还要考虑并发、缓存等一系列事情。
 
 ## 第三方库 ##
--控件绑定：[ButterKnife](https://github.com/JakeWharton/butterknife)
--网络请求：[okhttp](https://github.com/square/okhttp)
--事件分发：[EventBus](https://github.com/greenrobot/EventBus)
--方法数量突破：[multidex](https://developer.android.com/studio/build/multidex.html)
--Json解析：[fastjson](https://github.com/alibaba/fastjson)
--图片加载：[Glide](https://github.com/bumptech/glide)
--图片浏览控件：[PinchImageView](https://github.com/boycy815/PinchImageView)
--下拉刷新：[MaterialRefreshLayout](https://github.com/android-cjj/Android-MaterialRefreshLayout)
+- 控件绑定：[ButterKnife](https://github.com/JakeWharton/butterknife)
+
+- 网络请求：[okhttp](https://github.com/square/okhttp)
+
+- 事件分发：[EventBus](https://github.com/greenrobot/EventBus)
+
+- 方法数量突破：[multidex](https://developer.android.com/studio/build/multidex.html)
+
+- Json解析：[fastjson](https://github.com/alibaba/fastjson)
+
+- 图片加载：[Glide](https://github.com/bumptech/glide)
+
+- 图片浏览控件：[PinchImageView](https://github.com/boycy815/PinchImageView)
+
+- 下拉刷新：[MaterialRefreshLayout](https://github.com/android-cjj/Android-MaterialRefreshLayout)
+
 ## TODO ##
 到目前为止，还有一些功能没有开发：
 1. Actiity切换动画
+
  Activity之间的切换看似一瞬间，其实我个人认为还是很重要的。上下配合的流程型页面应该使用左右横屏切换关闭，给人一种流畅的感觉。两个页面毫无关联的，应该给人一种打开全新界面的动画感等等。
 2. GankApi的搜索功能
+
  Gank的API中拥有搜索的API，该功能在后续会去实现。
 3. 网络请求优化
+
  从该项目当中，我发现自己对网络请求的理解和Android文件存储的方式存在很多问题，等到有空，我会将网络请求这边重构，包括添加File缓存、异步同步请求、文件上传接收请求等一系列基本功能。
 4. RxJava+Retrofit
+
  本项目当中没有使用RxJava。在后期有空我会重新再写一遍该项目，会使用RxJava和其他框架来实现，这算是立一个flag吧。
