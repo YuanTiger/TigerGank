@@ -11,12 +11,9 @@
 ## 效果展示 ##
 | 页面  | 效果 |
 | :------- |:---------------:|
-| 首页效果 | ![](http://7xvzby.com1.z0.glb.clouddn.com/gank/gank_home_gif.gif) |
-| 网络监听 | ![](http://7xvzby.com1.z0.glb.clouddn.com/gank/gank_net_gif.gif) |
-| 每日详情 | ![](http://7xvzby.com1.z0.glb.clouddn.com/gank/gank_detail_gif.gif) |
-
-![](http://7xvzby.com1.z0.glb.clouddn.com/gank/gank_home_gif.gif)
-
+| 首页效果 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_home_gif.gif) |
+| 网络监听 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_net_gif.gif) |
+| 每日详情 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_detail_gif.gif) |
 
 ## 项目框架 ##
 首先，整体的项目框架，打算采用MVP框架。
