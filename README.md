@@ -46,12 +46,15 @@
 
 首先，我们来稍微屡一下全局的要求：
 
-- 标题栏：基本所有页面都会有，但是有些页面可能需要定制化，也有可能没有。
+- 标题栏：基本所有页面都会有，但是有些页面可能需要定制化，甚至可能没有。
 
-- 页面控制：此处是一大头，好的控制器应该可以监视到页面的各种状态来随时改变页面UI。包括Loading、无网、无数据、数据展示。
+- 页面控制：此处是一大头，包括Loading、无网、无数据、数据展示等多种页面样式以及展示逻辑。
 
 
-综上，我认为我们需要为BaseActivity设置一个layout文件，它持有ToolBar、各个状态的页面UI，并且创建一个页面状态的控制器，当页面状态发生变化，控制器会控制页面的改变。在子Activity中，我们只需设置数据UI的样式即可。
+综上，我认为我们需要为BaseActivity设置一个layout文件，它持有ToolBar和各个状态的页面UI，并且可以控制页面UI的展示时机。
+
+在子Activity中，继承BaseActivity后只需设置数据UI的样式即可。
+
 接下来我们就开始构建BaseActivity，首先来构建BaseActivity的layout：
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -140,6 +143,8 @@ public class PageController {
 
 这个逻辑因人而异，我这里就不介绍自己构建时的思路了，源码里的注释都有体现。
 
+在完成**PageController**后，当你需要构建BaseFragment时，仅仅需要将fragment.getAcitivty()传递至**PageController**中，就可以使用**PageController**了。
+
 
 ## 网络请求 ##
 使用**okhttp**来作为本次开发的网络请求底层。
@@ -158,6 +163,7 @@ public class PageController {
 并且还要考虑并发、缓存、异步同步等一系列事情。
 
 该项目的网络请求封装简直不忍直视，基本是本着能用就行的思想来进行封装的。。。
+
 ![](http://7xvzby.com1.z0.glb.clouddn.com/gaoxiao/%E6%83%A8%E4%B8%8D%E5%BF%8D%E7%9D%B9.png)
 
 我发现此处是我的薄弱项，在将来有空时我会好好学习的。。。。
