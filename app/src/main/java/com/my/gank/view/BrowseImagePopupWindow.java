@@ -64,7 +64,7 @@ public class BrowseImagePopupWindow extends PopupWindow {
         });
         //获取焦点、等于优先响应物理按键
         this.setFocusable(true);
-        
+
         this.setContentView(view);
         //设置大小
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
