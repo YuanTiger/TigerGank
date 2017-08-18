@@ -13,8 +13,14 @@
     <color name="c_333333">#333333</color>
     <color name="c_000000">#000000</color>
 
-    <!-- 50%透明-->
+    <!-- 50%不透明-->
     <color name="c_7f0090ff">#7f0090ff</color>
     <color name="c_7fffffff">#7fffffff</color>
     <color name="c_7f666666">#7f666666</color>
+    <color name="c_7f000000">#7f000000</color>
+
+    <!-- 30%不透明-->
+    <color name="c_50000000">#50000000</color>
+
+
 </resources>

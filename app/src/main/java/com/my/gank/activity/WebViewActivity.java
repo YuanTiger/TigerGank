@@ -8,16 +8,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
 import com.my.gank.utils.ToastUtil;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +27,6 @@ import butterknife.ButterKnife;
  * Author：mengyuan
  * Date  : 2017/8/16上午10:07
  * E-Mail:mengyuanzz@126.com
- * Desc  : WebView使用的是Tencent开源的X5WebView ：https://x5.tencent.com/tbs/guide/sdkInit.html
  */
 
 public class WebViewActivity extends BaseActivity {
@@ -70,9 +70,9 @@ public class WebViewActivity extends BaseActivity {
         // 支持通过JS打开新窗口
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         //自适应屏幕
-        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webView.getSettings().setLoadWithOverviewMode(true);
-
+        webView.getSettings().setUseWideViewPort(true);
         //进度监听
         webView.setWebChromeClient(new WebChromeClient() {
             @Override

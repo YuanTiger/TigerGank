@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseApp;
 import com.my.gank.base.BaseBean;
@@ -41,8 +42,11 @@ public class RequestManager {
 
     private RequestManager() {
 
+
         okHttpClient = new OkHttpClient
                 .Builder()
+                .readTimeout(RequestConfig.TIME_OUT, TimeUnit.SECONDS)
+                .writeTimeout(RequestConfig.TIME_OUT, TimeUnit.SECONDS)
                 .connectTimeout(RequestConfig.TIME_OUT, TimeUnit.SECONDS)
                 .build();
 

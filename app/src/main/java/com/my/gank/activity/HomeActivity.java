@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -17,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
@@ -27,8 +30,10 @@ import com.my.gank.bean.TypeGankBean;
 import com.my.gank.contract.HomeContract;
 import com.my.gank.presenter.HomePresenter;
 import com.my.gank.utils.DateUtils;
+import com.my.gank.utils.LogUtil;
 import com.my.gank.utils.ToastUtil;
-import com.tencent.smtt.sdk.TbsVideo;
+import com.my.gank.view.BrowseImagePopupWindow;
+import com.my.gank.view.TouchImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +53,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.refresh_view)
-    SwipeRefreshLayout refreshView;
+    MaterialRefreshLayout refreshView;
     @Bind(R.id.nav_view)
     NavigationView navView;
     @Bind(R.id.drawer_layout)
@@ -74,9 +79,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void sendRequest() {
         if (lastSelectMenu == null || lastSelectMenu.getTitle().toString().equals(getString(R.string.all))) {
-            presenter.requestHistoryList(pageIndex = 1);
+            presenter.requestHistoryList(pageIndex);
         } else {
-            presenter.requestTypeDataList(lastSelectMenu.getTitle().toString(), pageIndex = 1);
+            presenter.requestTypeDataList(lastSelectMenu.getTitle().toString(), pageIndex);
         }
     }
 
@@ -91,19 +96,18 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setupDrawerContent(navView);
         //初始化Presenter
         presenter = new HomePresenter(this);
-        //下拉刷新初始化
-        //设置刷新时动画的颜色，可以设置4个
-        refreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        refreshView.setColorSchemeResources(android.R.color.holo_blue_light,
-                android.R.color.holo_red_light, android.R.color.holo_orange_light,
-                android.R.color.holo_green_light);
-        refreshView.setProgressViewOffset(false, 0, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
-                        .getDisplayMetrics()));
-        //下拉刷新控件监听
-        refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        //刷新监听
+        refreshView.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                pageIndex = 1;
+                sendRequest();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                pageIndex++;
                 sendRequest();
             }
         });
@@ -148,6 +152,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
                         changeSelect(menuItem);
                         showLoadingPage();
+                        pageIndex = 1;
                         sendRequest();
                         return true;
                     }
@@ -166,6 +171,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         getToolBar().setTitle(menuItem.getTitle());
         drawerLayout.closeDrawers();
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -179,19 +185,27 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private void stopRefresh() {
+        refreshView.finishRefresh();
+        refreshView.finishRefreshLoadMore();
+    }
+
     //--------------------------------接口回调--------------------------------
     //--------------------------------接口回调--------------------------------
     //--------------------------------接口回调--------------------------------
     @Override
     public void getAllDataSuccess(HomeAllBean data) {
-        refreshView.setRefreshing(false);
+        stopRefresh();
         if (!data.isSuccess()) {
             getAllDataFailed(getString(R.string.no_data));
             return;
         }
         if (data.results == null || data.results.size() <= 0) {
-            // TODO: 2017/8/15 禁止上拉加载更多
+            refreshView.setLoadMore(false);
             return;
+        } else {
+            refreshView.setLoadMore(true);
         }
         //将数据条目的Apdater置为null
         typeAdapter = null;
@@ -214,20 +228,23 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void getAllDataFailed(String message) {
-        refreshView.setRefreshing(false);
-        showNoDataPage(message);
+        stopRefresh();
+        showNoNetPage();
     }
+
 
     @Override
     public void getTypeDataSuccess(TypeGankBean data) {
-        refreshView.setRefreshing(false);
+        stopRefresh();
         if (!data.isSuccess()) {
             getAllDataFailed(getString(R.string.no_data));
             return;
         }
         if (data.results == null || data.results.size() <= 0) {
-            // TODO: 2017/8/15 禁止上拉加载更多
+            refreshView.setLoadMore(false);
             return;
+        } else {
+            refreshView.setLoadMore(true);
         }
         //将数据条目的Apdater置为null
         allAdapter = null;
@@ -251,8 +268,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void getTypeDataFailed(String message) {
-        refreshView.setRefreshing(false);
-        showNoDataPage(message);
+        stopRefresh();
+        showNoNetPage();
     }
 
 
@@ -320,6 +337,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     //--------------------------------Holder--------------------------------
     //--------------------------------Holder--------------------------------
     //--------------------------------Holder--------------------------------
+    //所有数据的Adapter
     public class HomeAllHolder extends BaseRecyclerViewHolder<HomeAllBean.ResultsBean> {
         @Bind(R.id.tv_date)
         TextView tvDate;
@@ -352,7 +370,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         @Bind(R.id.tv_author)
         TextView tvAuthor;
         @Bind(R.id.iv_src)
-        ImageView ivSrc;
+        TouchImageView ivSrc;
 
         public HomeTypeSrcHolder(int viewId, ViewGroup parent, int viewType) {
             super(viewId, parent, viewType);
@@ -366,9 +384,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     .load(data.url + Constant.URL.imageSize)
                     .centerCrop()
                     .into(ivSrc);
-            itemView.setOnClickListener(new View.OnClickListener() {
+
+            ivSrc.setonImageClickListener(new TouchImageView.onImageClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(float x, float y, View view) {
+                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeActivity.this, data.url, x,y);
+                    popupWindow.showAtLocation(getToolBar(), Gravity.CENTER | Gravity.TOP, 0, 0);
+                    popupWindow.startAnimotion();
                 }
             });
         }
@@ -397,10 +419,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (data.type.equals(getString(R.string.sleepVedio))) {
-                        TbsVideo.openVideo(HomeActivity.this, data.url);
-                        return;
-                    }
                     WebViewActivity.openUrl(HomeActivity.this, data.url);
                 }
             });

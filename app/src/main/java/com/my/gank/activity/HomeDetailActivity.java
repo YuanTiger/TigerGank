@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import com.my.gank.bean.HomeDetailView;
 import com.my.gank.contract.HomeDetailContract;
 import com.my.gank.presenter.HomeDetailPresenter;
 import com.my.gank.utils.ToastUtil;
+import com.my.gank.view.BrowseImagePopupWindow;
+import com.my.gank.view.TouchImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +131,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
     //--------------------------------接口回调--------------------------------
     //--------------------------------接口回调--------------------------------
     @Override
-    public void getDataSuccess(HomeDetailItemBean data) {
+    public void getDataSuccess(final HomeDetailItemBean data) {
         if (data == null || !data.isSuccess() || data.category == null || data.category.size() <= 0) {
             getDataFailed(getString(R.string.no_data));
             return;
@@ -139,6 +142,15 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
                     .load(data.results.福利.get(0).url + Constant.URL.imageSize)
                     .centerCrop()
                     .into(backdrop);
+            //福利图点击放大事件
+            appbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeDetailActivity.this, data.results.福利.get(0).url, view.getWidth()/2, view.getHeight()/2);
+                    popupWindow.showAtLocation(getToolBar(), Gravity.CENTER | Gravity.TOP, 0, 0);
+                    popupWindow.startAnimotion();
+                }
+            });
         }
         resultData = new ArrayList<>();
         //计算条目总数,因为福利不在RecyclerView中显示，故剔除

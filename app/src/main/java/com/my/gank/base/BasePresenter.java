@@ -4,8 +4,10 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
- * MVP
- * P extends BasePresenter
+ * AUTHOR:       Yuan.Meng
+ * E-MAIL:       mengyuanzz@126.com
+ * CREATE-TIME:  16/8/31/下午5:20
+ * DESC:
  */
 public class BasePresenter<T extends BaseView> {
 
