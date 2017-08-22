@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
+import com.my.gank.base.Jump;
 import com.my.gank.utils.ToastUtil;
 
 
@@ -46,6 +47,8 @@ public class WebViewActivity extends BaseActivity {
     public int getLayId() {
         return R.layout.activity_webview;
     }
+
+
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -114,11 +117,6 @@ public class WebViewActivity extends BaseActivity {
         return Constant.PageStyle.NO_LOADING;
     }
 
-    public static void openUrl(Context context, String url) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", url);
-        context.startActivity(intent);
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

@@ -1,5 +1,6 @@
 package com.my.gank.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +25,7 @@ import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
 import com.my.gank.base.BaseRecyclerViewHolder;
+import com.my.gank.base.Jump;
 import com.my.gank.bean.GankItemBean;
 import com.my.gank.bean.HomeAllBean;
 import com.my.gank.bean.TypeGankBean;
@@ -359,7 +361,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    HomeDetailActivity.toDetail(HomeActivity.this, tvDate.getText().toString());
+                    Intent intent = new Intent(HomeActivity.this, HomeDetailActivity.class);
+                    intent.putExtra("date", tvDate.getText().toString());
+                    jump.to(intent);
                 }
             });
         }
@@ -388,7 +392,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             ivSrc.setonImageClickListener(new TouchImageView.onImageClickListener() {
                 @Override
                 public void onClick(float x, float y, View view) {
-                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeActivity.this, data.url, x,y);
+                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeActivity.this, data.url, x, y);
                     popupWindow.showAtLocation(getToolBar(), Gravity.CENTER | Gravity.TOP, 0, 0);
                     popupWindow.startAnimotion();
                 }
@@ -419,7 +423,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    WebViewActivity.openUrl(HomeActivity.this, data.url);
+                    Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
+                    intent.putExtra("url", data.url);
+                    jump.to(intent, Jump.JumpType.EJECT);
                 }
             });
         }

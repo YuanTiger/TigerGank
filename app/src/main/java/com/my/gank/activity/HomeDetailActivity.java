@@ -22,6 +22,7 @@ import com.my.gank.Constant;
 import com.my.gank.R;
 import com.my.gank.base.BaseActivity;
 import com.my.gank.base.BaseRecyclerViewHolder;
+import com.my.gank.base.Jump;
 import com.my.gank.bean.GankItemBean;
 import com.my.gank.bean.HomeDetailItemBean;
 import com.my.gank.bean.HomeDetailTileBean;
@@ -109,19 +110,6 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
         return Constant.PageStyle.LOADING_PAGE;
     }
 
-    /**
-     * 静态跳转
-     *
-     * @param context 。
-     * @param date    日期格式为：xxxx/xx/xx
-     */
-    public static void toDetail(Context context, String date) {
-        Intent intent = new Intent(context, HomeDetailActivity.class);
-        intent.putExtra("date", date);
-        context.startActivity(intent);
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
@@ -146,7 +134,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
             appbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeDetailActivity.this, data.results.福利.get(0).url, view.getWidth()/2, view.getHeight()/2);
+                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeDetailActivity.this, data.results.福利.get(0).url, view.getWidth() / 2, view.getHeight() / 2);
                     popupWindow.showAtLocation(getToolBar(), Gravity.CENTER | Gravity.TOP, 0, 0);
                     popupWindow.startAnimotion();
                 }
@@ -261,7 +249,9 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    WebViewActivity.openUrl(HomeDetailActivity.this, data.url);
+                    Intent intent = new Intent(HomeDetailActivity.this, WebViewActivity.class);
+                    intent.putExtra("url", data.url);
+                    jump.to(intent, Jump.JumpType.EJECT);
                 }
             });
         }

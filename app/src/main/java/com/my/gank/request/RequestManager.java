@@ -31,12 +31,15 @@ import okhttp3.Response;
  */
 
 public class RequestManager {
-    private static final RequestManager ourInstance = new RequestManager();
+    private static  RequestManager ourInstance = new RequestManager();
 
     private OkHttpClient okHttpClient;
 
 
     public static RequestManager getInstance() {
+        if (ourInstance == null) {
+            ourInstance = new RequestManager();
+        }
         return ourInstance;
     }
 
@@ -79,6 +82,7 @@ public class RequestManager {
     public void getAsync(String url, Params params, MyRequestCallback callback) {
         Request.Builder builder = new Request.Builder();
         builder.url(url);
+        builder.get();
         //添加参数
         params.addToRequest(builder);
         Request request = builder.build();
@@ -156,11 +160,12 @@ public class RequestManager {
 
     /**
      * 请求回调，对okHttp的请求回调进行进一步封装
+     *
      * @param <T>
      */
     public abstract static class MyRequestCallback<T extends BaseBean> implements Callback {
 
-        //okHttp请求结果是在子线程，该Handler用户切换主线程进行回调
+        //okHttp请求结果是在子线程，该Handler用于切换主线程进行回调
         private Handler mainHandler = new Handler(BaseApp.context.getMainLooper());
 
         @Override
@@ -176,13 +181,18 @@ public class RequestManager {
 
         @Override
         public void onResponse(Call call, final Response response) {
+
+            if(!response.isSuccessful()){
+
+            }
+
             final Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
             String content = null;
             try {
                 //获取body为一次性的，并且不可在主线程中进行
                 content = response.body().string();
-                LogUtil.i("request:",content);
+                LogUtil.i("request:", content);
             } catch (IOException e) {
                 e.printStackTrace();
                 mainHandler.post(new Runnable() {

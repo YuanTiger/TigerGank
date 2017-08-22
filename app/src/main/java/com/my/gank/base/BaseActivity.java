@@ -1,5 +1,6 @@
 package com.my.gank.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //页面状态控制器
     private PageController pageController;
+    //Activity切换动画控制器
+    public Jump jump;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
 
         pageController = new PageController(this);
-
+        jump = new Jump(this);
         pageController.initViewByStyle(savedInstanceState);
+        //解析Activity切换动画类型
+        if (getIntent() != null) {
+            Jump.JumpType jumpType = (Jump.JumpType) getIntent().getSerializableExtra(Jump.jump);
+            if (jumpType != null) {
+                jump.setCurrentAnimation(jumpType);
+            }
+        }
 
         //顶部网络状态监听栏设置按钮点击事件
         btBreakOffSetting.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +121,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
+
     //返回ToolBar控件
     public Toolbar getToolBar() {
         return toolBar;
@@ -168,8 +179,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        jump.finish();
         if (pageController != null) {
             pageController.onDestory();
+        }
+        if (jump != null) {
+            jump.onDestory();
         }
     }
 
@@ -180,6 +195,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
 
     }
-
 
 }

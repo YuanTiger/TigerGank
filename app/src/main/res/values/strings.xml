@@ -22,11 +22,6 @@
     <string name="json_parse_error">Json解析失败</string>
 
 
-    <string name="menu_night_mode">Night mode</string>
-    <string name="menu_night_mode_system">Follow system</string>
-    <string name="menu_night_mode_day">Day (always)</string>
-    <string name="menu_night_mode_night">Night (always)</string>
-    <string name="menu_night_mode_auto">Auto</string>
     <string name="provide_s">提供者：%s</string>
     <string name="again_click_exit_app">再按一次退出程序</string>
 </resources>

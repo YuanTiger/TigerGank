@@ -145,6 +145,15 @@ public class PageController {
 
 在完成**PageController**后，当你需要构建BaseFragment时，仅仅需要将fragment.getAcitivty()传递至**PageController**中，就可以使用**PageController**了。
 
+之后在实际使用过程中，我也发现了一个问题：
+
+由于我们的页面是根据页面状态来显示的，也就是说随着状态变化，页面中有且只有一种类型的页面处于显示状态。
+
+这就产生了一个巨大的问题：当数据View有下拉刷新或者抽屉效果时，如果网络超时或者无数据，数据View就会隐藏显示对应的状态View，数据View的隐藏代表着下拉刷新或抽屉效果的View被隐藏了，也就代表着用户无法使用了。
+
+这明显是不符合用户操作习惯的。
+
+这个问题待解决。
 
 ## 网络请求 ##
 使用**okhttp**来作为本次开发的网络请求底层。
@@ -169,6 +178,56 @@ public class PageController {
 我发现此处是我的薄弱项，在将来有空时我会好好学习的。。。。
 
 这里就不做过多介绍了，其实网上有很多基于okhttp封装相当好的网络请求框架，想使用的话也可以使用。
+
+
+## Activity切换动画 ##
+Activity的切换动画是可以定制的，大家都知道。这里我定义了多套Activity切换动画，并封装为Jump，每个Acitivty持有一个。
+
+为什么要这样做？因为我认为Activity的切换动画体验其实很重要。
+
+有些时候，从一个Activity打开一个Activity时，是一种流程，类似的有修改密码功能：
+
+输入完成旧密码之后点击下一步，打开输入新密码页面，就属于一种流程页面。那么它的动画应该就和上个页面很契合，给人一种页面连贯感。
+
+有些时候，即将打开的Activity与上个Activity毫无关联，用户将在这个页面领略到风格完全不同的数据，此时Activity的切换动画就需要给人一种打开新世界的感觉。
+
+比如一些详情页、或者一些轮播图跳转等。
+
+
+在封装Jump的过程中，我想到了两种方案：
+
+1.将Jump封装为单例静态的，并在Jump中封装一个Map集合来记录每个Activity的打开动画的类型，当这个Activity要关闭时，去查询打开动画类型去匹配赌赢的关闭动画。
+
+2.每个Activity持有一个Jump，该Jump记录了该Activity打开时的动画类型，在关闭时直接去查询即可。
+
+
+两种方案理解之后，可以很明显地发现，第2种方案可能更简单一些，并且第2种方案的性能会更好一些？
+
+所以我是先选择了第2种方案，但在开发过程中，遇到了一个难点，和大家分享一下：
+
+使用封装的Jump跳转时，使用的Jump是上个Activity持有的Jump，而不是即将打开的Activity持有的Jump。
+
+这就导致了使用Jump去获取动画类型时，获取的是上个Activity的动画类型，而不是即将打开的动画类型。
+
+为什么不使用即将打开的Activity的Jump呢？因为在跳转过去的时候，也就是startActivity()时，即将打开的Activity是没有实例的。
+
+我写了很多代码来进行测试，发现大部分解决方案都是需要指定2次动画类型。
+
+我认为这是不符合编程思想的，将来如果有人接手这些代码，那么必定不知道要指定Activity的动画类型，需要指定修改两处代码。
+
+目前我是通过添加Jump中封装的跳转方法的参数，用来指定动画类型，就像这样子：
+```
+public void to(Intent intent) {}
+public void to(Intent intent, Jump.JumpType type) {}
+public void to(Intent intent, int requestCode) {}
+public void to(Intent intent, int requestCode,Jump.JumpType type) {}
+```
+
+在指定**JumpType**的跳转方法中，将**JumpType**同时塞入到Intent当中，然后在BaseActivity中去解析**JumpType**并复制给Jump，是可以解决这个问题的。
+
+这里一定要注意，当用户指定**JumpType**时，我们不能将**JumpType**复制给当前Jump，因为这个**JumpType**是下个Activity所做的动画，而不是当前Activity所做的动画。
+
+具体代码可参考：[Jump]()
 
 
 ## TODO ##
