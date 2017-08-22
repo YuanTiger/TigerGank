@@ -181,7 +181,7 @@ public class PageController {
 
 
 ## Activity切换动画 ##
-Activity的切换动画是可以定制的，大家都知道。这里我定义了多套Activity切换动画，并封装为Jump，每个Acitivty持有一个。
+Activity的切换动画是可以定制的，大家都知道。这里我定义了多套Activity切换动画，并封装为[Jump](https://github.com/YuanTiger/TigerGank/blob/master/app/src/main/java/com/my/gank/base/Jump.java)，和**PageController**一样，每个Acitivty持有一个。
 
 为什么要这样做？因为我认为Activity的切换动画体验其实很重要。
 
@@ -196,24 +196,26 @@ Activity的切换动画是可以定制的，大家都知道。这里我定义了
 
 在封装Jump的过程中，我想到了两种方案：
 
-1.将Jump封装为单例静态的，并在Jump中封装一个Map集合来记录每个Activity的打开动画的类型，当这个Activity要关闭时，去查询打开动画类型去匹配赌赢的关闭动画。
+- 将Jump封装为单例静态的，并在Jump中封装一个Map集合来记录每个Activity的打开动画的类型，当这个Activity要关闭时，去查询匹配对应的关闭动画。
 
-2.每个Activity持有一个Jump，该Jump记录了该Activity打开时的动画类型，在关闭时直接去查询即可。
+- 每个Activity持有一个Jump，该Jump记录了该Activity打开时的动画类型，在关闭时直接去查询匹配即可。
 
 
-两种方案理解之后，可以很明显地发现，第2种方案可能更简单一些，并且第2种方案的性能会更好一些？
+两种方案理解之后，可以很明显地发现，第2种方案更简单一些，并且第2种方案的性能会更好一些？
 
-所以我是先选择了第2种方案，但在开发过程中，遇到了一个难点，和大家分享一下：
+所以我是选择了第2种方案。
 
-使用封装的Jump跳转时，使用的Jump是上个Activity持有的Jump，而不是即将打开的Activity持有的Jump。
+接着在开发过程中，遇到了一个难点，和大家分享一下：
+
+在使用封装的Jump跳转时，该Jump是上个Activity持有的Jump，而不是即将打开的Activity持有的Jump。
 
 这就导致了使用Jump去获取动画类型时，获取的是上个Activity的动画类型，而不是即将打开的动画类型。
 
-为什么不使用即将打开的Activity的Jump呢？因为在跳转过去的时候，也就是startActivity()时，即将打开的Activity是没有实例的。
+为什么不使用即将打开的Activity的Jump呢？因为在跳转过去的时候，也就是startActivity()时，我们是没有即将打开的Activity的实例的。
 
-我写了很多代码来进行测试，发现大部分解决方案都是需要指定2次动画类型。
+我写了很多代码来进行测试，发现大部分解决方案都是需要在两处指定动画类型。
 
-我认为这是不符合编程思想的，将来如果有人接手这些代码，那么必定不知道要指定Activity的动画类型，需要指定修改两处代码。
+我认为这是不符合编程思想的。将来如果有人接手这些代码，那么必定不知道要指定Activity的动画类型，需要修改两处代码。
 
 目前我是通过添加Jump中封装的跳转方法的参数，用来指定动画类型，就像这样子：
 ```
@@ -222,20 +224,17 @@ public void to(Intent intent, Jump.JumpType type) {}
 public void to(Intent intent, int requestCode) {}
 public void to(Intent intent, int requestCode,Jump.JumpType type) {}
 ```
+可以发现除了传递Intent之外，我又添加了指定动画类型**JumpType**的跳转方法。
 
-在指定**JumpType**的跳转方法中，将**JumpType**同时塞入到Intent当中，然后在BaseActivity中去解析**JumpType**并复制给Jump，是可以解决这个问题的。
+在指定**JumpType**的跳转方法中，将**JumpType**同时塞入到Intent当中，然后在BaseActivity中去解析**JumpType**并赋值给Jump，就是整体的流程。
 
-这里一定要注意，当用户指定**JumpType**时，我们不能将**JumpType**复制给当前Jump，因为这个**JumpType**是下个Activity所做的动画，而不是当前Activity所做的动画。
+这里一定要注意，当指定**JumpType**时，我们不能将**JumpType**复制给当前Jump，因为这个**JumpType**是下个Activity所做的动画，而不是当前Activity所做的动画。
 
-具体代码可参考：[Jump]()
+具体代码可参考：[Jump](https://github.com/YuanTiger/TigerGank/blob/master/app/src/main/java/com/my/gank/base/Jump.java)
 
 
 ## TODO ##
 到目前为止，还有一些功能没有开发：
-
-- Activity切换动画
-
-   Activity之间的切换看似一瞬间，其实我个人认为还是很重要的。上下配合的流程型页面应该使用左右横屏进入和关闭，给人一种流畅、步骤的感觉。两个毫无关联的页面，应该给人一种打开全新界面的动画感等等。
 
 - 搜索功能
 
