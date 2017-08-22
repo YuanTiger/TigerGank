@@ -213,6 +213,8 @@ Activity的切换动画是可以定制的，大家都知道。这里我定义了
 
 为什么不使用即将打开的Activity的Jump呢？因为在跳转过去的时候，也就是startActivity()时，我们是没有即将打开的Activity的实例的。
 
+![](http://7xvzby.com1.z0.glb.clouddn.com/gank/gank_desc_0.png)
+
 我写了很多代码来进行测试，发现大部分解决方案都是需要在两处指定动画类型。
 
 我认为这是不符合编程思想的。将来如果有人接手这些代码，那么必定不知道要指定Activity的动画类型，需要修改两处代码。
