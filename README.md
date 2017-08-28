@@ -230,7 +230,7 @@ public void to(Intent intent, int requestCode,Jump.JumpType type) {}
 
 在指定**JumpType**的跳转方法中，将**JumpType**同时塞入到Intent当中，然后在BaseActivity中去解析**JumpType**并赋值给Jump，就是整体的流程。
 
-这里一定要注意，当指定**JumpType**时，我们不能将**JumpType**复制给当前Jump，因为这个**JumpType**是下个Activity所做的动画，而不是当前Activity所做的动画。
+这里一定要注意，当指定**JumpType**时，我们不能将**JumpType**赋值给当前Jump，因为这个**JumpType**是下个Activity所做的动画，而不是当前Activity所做的动画。
 
 具体代码可参考：[Jump](https://github.com/YuanTiger/TigerGank/blob/master/app/src/main/java/com/my/gank/base/Jump.java)
 
