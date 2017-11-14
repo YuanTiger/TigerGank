@@ -11,7 +11,7 @@ import android.view.View;
  * Author：mengyuan
  * Date  : 2017/8/17上午11:35
  * E-Mail:mengyuanzz@126.com
- * Desc  :
+ * Desc  :可以返回点击坐标的ImageView
  */
 
 public class TouchImageView extends AppCompatImageView {
