@@ -40,8 +40,8 @@ public interface Constant {
 
     interface URL {
         String BASE_URL = "http://gank.io/api/";
-        //图片大小
-        String imageSize = "?imageView2/0/w/250";
+        //指定图片大小
+        String imageSize = "?imageView2/0/w/350";
 
 
         //所有Gank: /数据类型/一页数量/页码

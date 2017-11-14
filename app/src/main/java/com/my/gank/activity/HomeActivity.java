@@ -40,7 +40,7 @@ import com.my.gank.view.TouchImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Author：mengyuan
@@ -52,13 +52,13 @@ import butterknife.Bind;
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
 
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @Bind(R.id.refresh_view)
+    @BindView(R.id.refresh_view)
     MaterialRefreshLayout refreshView;
-    @Bind(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView navView;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
     //退出App，2秒内连续点击2次，记录第一次点击时间
@@ -122,7 +122,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void toolBarSetting(Toolbar toolbar) {
         super.toolBarSetting(toolbar);
-        toolbar.setNavigationIcon(R.drawable.menu_home);
+        toolbar.setNavigationIcon(R.mipmap.icon_menu);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -300,8 +300,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     //某种数据的条目Adapter
     public class HomeTypeAdapter extends RecyclerView.Adapter<BaseRecyclerViewHolder> {
-        private final int TYPE_WELFARE = 23;
-        private final int TYPE_DATA = 24;
+        private final int TYPE_WELFARE = 23;//福利条目类型
+        private final int TYPE_DATA = 24;//数据条目类型
 
 
         @Override
@@ -341,9 +341,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     //--------------------------------Holder--------------------------------
     //所有数据的Adapter
     public class HomeAllHolder extends BaseRecyclerViewHolder<HomeAllBean.ResultsBean> {
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView tvDate;
-        @Bind(R.id.tv_desc)
+        @BindView(R.id.tv_desc)
         TextView tvDesc;
 
 
@@ -371,9 +371,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     //特定类型下的福利Holder
     public class HomeTypeSrcHolder extends BaseRecyclerViewHolder<GankItemBean> {
-        @Bind(R.id.tv_author)
+        @BindView(R.id.tv_author)
         TextView tvAuthor;
-        @Bind(R.id.iv_src)
+        @BindView(R.id.iv_src)
         TouchImageView ivSrc;
 
         public HomeTypeSrcHolder(int viewId, ViewGroup parent, int viewType) {
@@ -402,11 +402,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     //特定类型下的普通Holder
     public class HomeTypeDataHolder extends BaseRecyclerViewHolder<GankItemBean> {
-        @Bind(R.id.tv_title)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
-        @Bind(R.id.tv_author)
+        @BindView(R.id.tv_author)
         TextView tvAuthor;
-        @Bind(R.id.tv_date)
+        @BindView(R.id.tv_date)
         TextView tvDate;
 
         public HomeTypeDataHolder(int viewId, ViewGroup parent, int viewType) {

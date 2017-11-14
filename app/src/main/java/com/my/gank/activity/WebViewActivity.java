@@ -21,19 +21,17 @@ import com.my.gank.base.Jump;
 import com.my.gank.utils.ToastUtil;
 
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 
 /**
  * Author：mengyuan
  * Date  : 2017/8/16上午10:07
  * E-Mail:mengyuanzz@126.com
  */
-
 public class WebViewActivity extends BaseActivity {
-    @Bind(R.id.web_view)
+    @BindView(R.id.web_view)
     WebView webView;
-    @Bind(R.id.progress_bar)
+    @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     private String url;

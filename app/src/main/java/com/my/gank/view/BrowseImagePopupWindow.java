@@ -3,9 +3,11 @@ package com.my.gank.view;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -14,26 +16,21 @@ import android.view.animation.ScaleAnimation;
 import android.widget.PopupWindow;
 
 import com.bumptech.glide.Glide;
-import com.my.gank.Constant;
 import com.my.gank.R;
-import com.my.gank.activity.HomeActivity;
 import com.my.gank.utils.ScreenUtil;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 /**
  * AUTHOR:       Yuan.Meng
  * E-MAIL:       mengyuanzz@126.com
- * CREATE-TIME:  16/9/8/上午11:47
+ * CREATE-TIME:  17/10/8/上午11:47
  * DESC:
  */
 
 public class BrowseImagePopupWindow extends PopupWindow {
-
-    @Bind(R.id.iv_src)
-    PinchImageView ivSrc;
 
 
     private View view;
@@ -44,14 +41,18 @@ public class BrowseImagePopupWindow extends PopupWindow {
 
 
     public BrowseImagePopupWindow(Context context, String url, float X, float Y) {
-        initView(context, url, X, Y);
+        initView(context, url);
+
+        initAnimotion(X, Y);
+
     }
 
 
-    private void initView(final Context context, String url, float x, float y) {
-        view = ((Activity) context).getLayoutInflater().inflate(R.layout.pop_browse_img, null);
-        ButterKnife.bind(this, view);
-        //设置图片
+    private void initView(final Context context, String url) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.pop_browse_img, null, false);
+
+        PinchImageView ivSrc = view.findViewById(R.id.iv_src);
         Glide.with(context)
                 .load(url)
                 .fitCenter()
@@ -63,19 +64,28 @@ public class BrowseImagePopupWindow extends PopupWindow {
             }
         });
         //获取焦点、等于优先响应物理按键
+        //在PopupWindow打开的时候，点击回退，会响应PopupWindow的回退事件，而非Activity的
+        //如果设置为false，则会直接响应Activity的
         this.setFocusable(true);
 
-        this.setContentView(view);
+        this.setBackgroundDrawable(new BitmapDrawable());
+        //设置大小
         //设置大小
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         view.measure(w, h);
         this.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         this.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        initAnimotion(x, y);
+
+        this.setContentView(view);
     }
 
-
+    /**
+     * 初始化显示、隐藏的动画，会从用户点击的点开始做动画
+     *
+     * @param x 用户点击的x坐标
+     * @param y 用户点击的y坐标
+     */
     private void initAnimotion(float x, float y) {
         int screenWidth = ScreenUtil.getCurrentScreenWidth();
         int screenHeight = ScreenUtil.getCurrentScreenHeight();
@@ -94,12 +104,6 @@ public class BrowseImagePopupWindow extends PopupWindow {
         dismissAnimation.setFillEnabled(true);
         dismissAnimation.setFillAfter(true);
         dismissAnimation.setInterpolator(new AccelerateInterpolator());
-
-    }
-
-    @Override
-    public void dismiss() {
-        view.startAnimation(dismissAnimation);
         dismissAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -118,8 +122,14 @@ public class BrowseImagePopupWindow extends PopupWindow {
         });
     }
 
+    @Override
+    public void dismiss() {
+        this.getContentView().startAnimation(dismissAnimation);
+
+    }
+
     public void startAnimotion() {
-        view.startAnimation(showAnimation);
+        this.getContentView().startAnimation(showAnimation);
     }
 
 

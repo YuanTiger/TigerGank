@@ -36,27 +36,27 @@ import com.my.gank.view.TouchImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 
 /**
  * Author：mengyuan
- * Date  : 2017/8/15下午3:00
+ * Date  : 2017/8/15下午2:20
  * E-Mail:mengyuanzz@126.com
  * Desc  :
  */
 
 public class HomeDetailActivity extends BaseActivity implements HomeDetailContract.View {
 
-    @Bind(R.id.backdrop)
+    @BindView(R.id.backdrop)
     ImageView backdrop;
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     AppBarLayout appbar;
-    @Bind(R.id.main_content)
+    @BindView(R.id.main_content)
     CoordinatorLayout mainContent;
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
     private String date;
@@ -233,9 +233,9 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
     //--------------------------------Holder--------------------------------
     //条目Holder
     public class ItemHolder extends BaseRecyclerViewHolder<GankItemBean> {
-        @Bind(R.id.icon)
+        @BindView(R.id.icon)
         ImageView icon;
-        @Bind(R.id.tv_desc)
+        @BindView(R.id.tv_desc)
         TextView tvDesc;
 
 
@@ -259,7 +259,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
 
     //标题Holder
     public class TitleHoder extends BaseRecyclerViewHolder<HomeDetailTileBean> {
-        @Bind(R.id.tv_title)
+        @BindView(R.id.tv_title)
         TextView tvTitle;
 
         public TitleHoder(int viewId, ViewGroup parent, int viewType) {

@@ -204,10 +204,8 @@ public class PageController {
         if (layoutId < 0) {
             throw new RuntimeException("请通过getLayId()设置布局");
         }
-        View inflate = weakActivity.get().getLayoutInflater().inflate(layoutId, null);
 
-        weakActivity.get().viewData.addView(inflate);
-
+        weakActivity.get().getLayoutInflater().inflate(layoutId,weakActivity.get().viewData,true);
         ButterKnife.bind(weakActivity.get());
 
         //初始化页面

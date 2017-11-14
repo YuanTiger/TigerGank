@@ -21,11 +21,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
- * 开始时间 2017年8月9日晚
+ * Author：mengyuan
+ * Date  : 2017/8/16上午10:07
+ * E-Mail:mengyuanzz@126.com
+ * DESC  :Activity基类
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -48,19 +51,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
-        toolBar = (Toolbar) findViewById(R.id.toolbar);
-        ivLoading = (ImageView) findViewById(R.id.iv_loading);
-        tvNoDataDesc = (TextView) findViewById(R.id.tv_nodata_desc);
-        btReConn = (BaseButton) findViewById(R.id.bt_re_conn);
-        viewData = (FrameLayout) findViewById(R.id.view_data);
-        btBreakOffSetting = (BaseButton) findViewById(R.id.bt_break_off_setting);
-        llNetBreakOff = (LinearLayout) findViewById(R.id.ll_net_break_off);
+        //因为ButterKnife只能Bind一次，我将子Activity的Bind操作进行了封装，所以基类无法再进行Bind。
+        toolBar = findViewById(R.id.tool_bar);
+        ivLoading = findViewById(R.id.iv_loading);
+        tvNoDataDesc = findViewById(R.id.tv_nodata_desc);
+        btReConn = findViewById(R.id.bt_re_conn);
+        viewData = findViewById(R.id.view_data);
+        btBreakOffSetting = findViewById(R.id.bt_break_off_setting);
+        llNetBreakOff = findViewById(R.id.ll_net_break_off);
 
 
         EventBus.getDefault().register(this);
 
         pageController = new PageController(this);
         jump = new Jump(this);
+        //初始化页面
         pageController.initViewByStyle(savedInstanceState);
         //解析Activity切换动画类型
         if (getIntent() != null) {
@@ -191,7 +196,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
         EventBus.getDefault().unregister(this);
 
     }
