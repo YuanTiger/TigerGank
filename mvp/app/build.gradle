@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.my.gank"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "0.1"
+        // dex突破65535的限制
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField 'Boolean', 'isDebug', 'true'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            buildConfigField 'Boolean', 'isDebug', 'false'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.2'
+    //    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.2'
+    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'org.greenrobot:eventbus:3.1.1'//EventBus
+    compile 'com.android.support:multidex:1.0.3'//65535限制突破
+    compile 'com.alibaba:fastjson:1.2.40'//fastJson解析
+    compile 'com.github.bumptech.glide:glide:4.6.1'//Glide图片加载
+    testCompile 'junit:junit:4.12'
+    compile project(':materialRefresh')
+}

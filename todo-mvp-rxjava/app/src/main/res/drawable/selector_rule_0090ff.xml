@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--注意设置的顺序，在检测selector文件状态时，按照从上到下的顺序，如果某项满足了，就会结束-->
+    <!--不可点击状态-->
+    <item android:drawable="@drawable/bg_7f0090ff_corner_4" android:state_enabled="false" />
+    <!--按压状态-->
+    <item android:drawable="@drawable/bg_007bd9_corner_4" android:state_pressed="true" />
+    <!--可点击状态-->
+    <item android:drawable="@drawable/bg_0090ff_corner_4" android:state_enabled="true" />
+
+</selector>

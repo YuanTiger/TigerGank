@@ -7,9 +7,9 @@
 ## 效果展示 ##
 | 页面  | 效果 |
 | :------- |:---------------:|
-| 首页效果 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_home_gif.gif) |
-| 网络监听 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_net_gif.gif) |
-| 每日详情 | ![](https://github.com/YuanTiger/TigerGank/blob/master/app/gank_detail_gif.gif) |
+| 首页效果 | ![](https://github.com/YuanTiger/TigerGank/blob/master/gank_home_gif.gif) |
+| 网络监听 | ![](https://github.com/YuanTiger/TigerGank/blob/master/gank_net_gif.gif) |
+| 每日详情 | ![](https://github.com/YuanTiger/TigerGank/blob/master/gank_detail_gif.gif) |
 
 ## 第三方库 ##
 - 控件绑定：[ButterKnife](https://github.com/JakeWharton/butterknife)

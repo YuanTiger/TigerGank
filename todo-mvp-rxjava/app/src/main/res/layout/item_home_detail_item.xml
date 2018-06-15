@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="7.5dp"
+        android:layout_height="7.5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/selector_0090ff_pressed_333333" />
+
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/icon"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="GankGankGankGankGankGankGankGankGankGankGankGank"
+        android:textColor="@color/selector_0090ff_333333"
+        android:textSize="14sp" />
+</RelativeLayout>
