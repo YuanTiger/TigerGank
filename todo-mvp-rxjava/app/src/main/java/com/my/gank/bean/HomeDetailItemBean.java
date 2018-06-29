@@ -12,15 +12,8 @@ import java.util.List;
  * Desc  :
  */
 
-public class HomeDetailItemBean extends BaseBean {
+public class HomeDetailItemBean  {
 
-
-    public ResultsBean results;
-    public List<String> category;
-
-
-
-    public static class ResultsBean {
         public List<GankItemBean> Android;
         public List<GankItemBean> iOS;
         public List<GankItemBean> 休息视频;
@@ -29,6 +22,4 @@ public class HomeDetailItemBean extends BaseBean {
         public List<GankItemBean> 福利;
         public List<GankItemBean> App;
         public List<GankItemBean> 拓展资源;
-
-    }
 }

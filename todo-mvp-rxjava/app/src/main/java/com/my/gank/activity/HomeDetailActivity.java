@@ -120,20 +120,20 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
     //--------------------------------接口回调--------------------------------
     @Override
     public void getDataSuccess(final HomeDetailItemBean data) {
-        if (data == null || !data.isSuccess() || data.category == null || data.category.size() <= 0) {
+        if (data == null ) {
             getDataFailed(getString(R.string.no_data));
             return;
         }
-        if (data.results.福利 != null) {
+        if (data.福利 != null) {
             //福利图
             Glide.with(this)
-                    .load(data.results.福利.get(0).url + Constant.URL.imageSize)
+                    .load(data.福利.get(0).url + Constant.URL.imageSize)
                     .into(backdrop);
             //福利图点击放大事件
             appbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeDetailActivity.this, data.results.福利.get(0).url, view.getWidth() / 2, view.getHeight() / 2);
+                    BrowseImagePopupWindow popupWindow = new BrowseImagePopupWindow(HomeDetailActivity.this, data.福利.get(0).url, view.getWidth() / 2, view.getHeight() / 2);
                     popupWindow.showAtLocation(getToolBar(), Gravity.CENTER | Gravity.TOP, 0, 0);
                     popupWindow.startAnimotion();
                 }
@@ -141,33 +141,33 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
         }
         resultData = new ArrayList<>();
         //计算条目总数,因为福利不在RecyclerView中显示，故剔除
-        if (data.results.Android != null && data.results.Android.size() > 0) {
+        if (data.Android != null && data.Android.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.Android)));
-            resultData.addAll(data.results.Android);
+            resultData.addAll(data.Android);
         }
-        if (data.results.iOS != null && data.results.iOS.size() > 0) {
+        if (data.iOS != null && data.iOS.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.iOS)));
-            resultData.addAll(data.results.iOS);
+            resultData.addAll(data.iOS);
         }
-        if (data.results.休息视频 != null && data.results.休息视频.size() > 0) {
+        if (data.休息视频 != null && data.休息视频.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.sleepVedio)));
-            resultData.addAll(data.results.休息视频);
+            resultData.addAll(data.休息视频);
         }
-        if (data.results.前端 != null && data.results.前端.size() > 0) {
+        if (data.前端 != null && data.前端.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.frontEnd)));
-            resultData.addAll(data.results.前端);
+            resultData.addAll(data.前端);
         }
-        if (data.results.瞎推荐 != null && data.results.瞎推荐.size() > 0) {
+        if (data.瞎推荐 != null && data.瞎推荐.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.recommend)));
-            resultData.addAll(data.results.瞎推荐);
+            resultData.addAll(data.瞎推荐);
         }
-        if (data.results.App != null && data.results.App.size() > 0) {
+        if (data.App != null && data.App.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.App)));
-            resultData.addAll(data.results.App);
+            resultData.addAll(data.App);
         }
-        if (data.results.拓展资源 != null && data.results.拓展资源.size() > 0) {
+        if (data.拓展资源 != null && data.拓展资源.size() > 0) {
             resultData.add(new HomeDetailTileBean(getString(R.string.resource)));
-            resultData.addAll(data.results.拓展资源);
+            resultData.addAll(data.拓展资源);
         }
 
         if (adapter == null) {

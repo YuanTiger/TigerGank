@@ -28,7 +28,6 @@ import com.my.gank.base.BaseRecyclerViewHolder;
 import com.my.gank.base.Jump;
 import com.my.gank.bean.GankItemBean;
 import com.my.gank.bean.HomeAllBean;
-import com.my.gank.bean.TypeGankBean;
 import com.my.gank.contract.HomeContract;
 import com.my.gank.presenter.HomePresenter;
 import com.my.gank.utils.DateUtils;
@@ -74,7 +73,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     private HomePresenter presenter;
 
-    private List<HomeAllBean.ResultsBean> allDataList;
+    private List<HomeAllBean> allDataList;
     private List<GankItemBean> typeDataList;
 
 
@@ -196,14 +195,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     //--------------------------------接口回调--------------------------------
     //--------------------------------接口回调--------------------------------
     //--------------------------------接口回调--------------------------------
+
+
     @Override
-    public void getAllDataSuccess(HomeAllBean data) {
+    public void getAllDataSuccess(List<HomeAllBean> data) {
         stopRefresh();
-        if (!data.isSuccess()) {
-            getAllDataFailed(getString(R.string.no_data));
-            return;
-        }
-        if (data.results == null || data.results.size() <= 0) {
+        if (data == null || data.size() <= 0) {
             refreshView.setLoadMore(false);
             return;
         } else {
@@ -217,7 +214,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         if (pageIndex == 1) {
             allDataList.clear();
         }
-        allDataList.addAll(data.results);
+        allDataList.addAll(data);
 
         if (allAdapter == null) {
             allAdapter = new HomeAllAdapter();
@@ -234,15 +231,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         showNoNetPage();
     }
 
-
     @Override
-    public void getTypeDataSuccess(TypeGankBean data) {
+    public void getTypeDataSuccess(List<GankItemBean> data) {
         stopRefresh();
-        if (!data.isSuccess()) {
-            getAllDataFailed(getString(R.string.no_data));
-            return;
-        }
-        if (data.results == null || data.results.size() <= 0) {
+
+        if (data == null || data.size() <= 0) {
             refreshView.setLoadMore(false);
             return;
         } else {
@@ -257,7 +250,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         if (pageIndex == 1) {
             typeDataList.clear();
         }
-        typeDataList.addAll(data.results);
+        typeDataList.addAll(data);
 
         if (typeAdapter == null) {
             typeAdapter = new HomeTypeAdapter();
@@ -340,7 +333,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     //--------------------------------Holder--------------------------------
     //--------------------------------Holder--------------------------------
     //所有数据的Adapter
-    public class HomeAllHolder extends BaseRecyclerViewHolder<HomeAllBean.ResultsBean> {
+    public class HomeAllHolder extends BaseRecyclerViewHolder<HomeAllBean> {
         @BindView(R.id.tv_date)
         TextView tvDate;
         @BindView(R.id.tv_desc)
@@ -352,7 +345,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         }
 
         @Override
-        public void refreshData(final HomeAllBean.ResultsBean data, int position) {
+        public void refreshData(final HomeAllBean data, int position) {
             tvDate.setText(DateUtils.toGankDate(data.created_at));
 
             tvDesc.setText(data.title);

@@ -2,7 +2,6 @@ package com.my.gank.contract;
 
 import com.my.gank.base.BaseView;
 import com.my.gank.bean.HomeDetailItemBean;
-import com.my.gank.request.RequestManager;
 
 /**
  * Author：mengyuan
@@ -26,8 +25,4 @@ public interface HomeDetailContract {
 
     }
 
-    interface Model {
-        void requestDetail(String date, RequestManager.MyRequestCallback<HomeDetailItemBean> callback);
-
-    }
 }

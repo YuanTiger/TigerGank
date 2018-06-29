@@ -1,11 +1,16 @@
 package com.my.gank.presenter;
 
 import com.my.gank.base.BasePresenter;
+import com.my.gank.bean.GankItemBean;
 import com.my.gank.bean.HomeAllBean;
-import com.my.gank.bean.TypeGankBean;
 import com.my.gank.contract.HomeContract;
-import com.my.gank.model.HomeModel;
-import com.my.gank.request.RequestManager;
+import com.my.gank.rxrequest.HttpMethods;
+
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Author：mengyuan
@@ -16,43 +21,71 @@ import com.my.gank.request.RequestManager;
 
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
 
-    private HomeContract.Model model;
+    private CompositeDisposable mCompositeDisposable;
 
 
     public HomePresenter(HomeContract.View view) {
         super(view);
 
-        model = new HomeModel();
+
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void requestHistoryList(int pageIndex) {
-        model.requestHistoryList(pageIndex, new RequestManager.MyRequestCallback<HomeAllBean>() {
-            @Override
-            public void success(HomeAllBean data) {
+        Observer<List<HomeAllBean>> subscriber= new Observer<List<HomeAllBean>>(){
 
-                viewWeakReference.get().getAllDataSuccess(data);
+            @Override
+            public void onError(Throwable e) {
+                viewWeakReference.get().getAllDataFailed("");
+
             }
 
             @Override
-            public void failed(String message) {
-                viewWeakReference.get().getAllDataFailed(message);
+            public void onComplete() {
+
             }
-        });
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                mCompositeDisposable.add(d);
+            }
+
+            @Override
+            public void onNext(List<HomeAllBean> homeAllBeans) {
+                viewWeakReference.get().getAllDataSuccess(homeAllBeans);
+            }
+        };
+        HttpMethods.getInstance().getHistory(pageIndex,subscriber);
     }
 
     @Override
     public void requestTypeDataList(String typeName, int pageIndex) {
-        model.requestTypeDataList(typeName, pageIndex, new RequestManager.MyRequestCallback<TypeGankBean>() {
+        Observer<List<GankItemBean>> subscriber= new Observer<List<GankItemBean>>(){
+
             @Override
-            public void success(TypeGankBean data) {
-                viewWeakReference.get().getTypeDataSuccess(data);
+            public void onError(Throwable e) {
+                viewWeakReference.get().getTypeDataFailed("");
             }
 
             @Override
-            public void failed(String message) {
-                viewWeakReference.get().getTypeDataFailed(message);
+            public void onComplete() {
+
             }
-        });
+
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(List<GankItemBean> gankItemBeans) {
+                viewWeakReference.get().getTypeDataSuccess(gankItemBeans);
+            }
+
+
+        };
+        HttpMethods.getInstance().getTypeData(typeName,pageIndex,subscriber);
+
     }
 }
