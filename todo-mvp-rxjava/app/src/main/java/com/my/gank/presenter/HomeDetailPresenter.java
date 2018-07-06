@@ -3,6 +3,7 @@ package com.my.gank.presenter;
 import com.my.gank.base.BasePresenter;
 import com.my.gank.bean.HomeDetailItemBean;
 import com.my.gank.contract.HomeDetailContract;
+import com.my.gank.rxrequest.ApiException;
 import com.my.gank.rxrequest.HttpMethods;
 
 import io.reactivex.Observer;
@@ -40,7 +41,9 @@ public class HomeDetailPresenter extends BasePresenter<HomeDetailContract.View> 
 
             @Override
             public void onError(Throwable e) {
-                viewWeakReference.get().getDataFailed("");
+                if (e instanceof ApiException) {
+                    viewWeakReference.get().getDataFailed(((ApiException) e).getApiExceptionMessage());
+                }
 
             }
 
@@ -50,7 +53,7 @@ public class HomeDetailPresenter extends BasePresenter<HomeDetailContract.View> 
             }
         };
 
-        HttpMethods.getInstance().getDetail(date,observer);
+        HttpMethods.getInstance().getDetail(date, observer);
 
     }
 }

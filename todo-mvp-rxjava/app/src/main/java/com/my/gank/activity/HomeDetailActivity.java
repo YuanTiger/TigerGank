@@ -1,6 +1,5 @@
 package com.my.gank.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -31,7 +30,6 @@ import com.my.gank.contract.HomeDetailContract;
 import com.my.gank.presenter.HomeDetailPresenter;
 import com.my.gank.utils.ToastUtil;
 import com.my.gank.view.BrowseImagePopupWindow;
-import com.my.gank.view.TouchImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -197,7 +195,7 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
 
             switch (viewType) {
                 case Constant.TYPE_HOME_DETAIL_TITLE:
-                    return new TitleHoder(R.layout.item_home_detail_title, parent, viewType);
+                    return new TitleHolder(R.layout.item_home_detail_title, parent, viewType);
                 case Constant.TYPE_HOME_DETAIL_ITEM:
                     return new ItemHolder(R.layout.item_home_detail_item, parent, viewType);
             }
@@ -207,8 +205,8 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
         @Override
         public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
 
-            if (holder instanceof TitleHoder) {
-                ((TitleHoder) holder).refreshData((HomeDetailTileBean) resultData.get(position), position);
+            if (holder instanceof TitleHolder) {
+                ((TitleHolder) holder).refreshData((HomeDetailTileBean) resultData.get(position), position);
             } else if (holder instanceof ItemHolder) {
                 ((ItemHolder) holder).refreshData((GankItemBean) resultData.get(position), position);
             }
@@ -257,11 +255,11 @@ public class HomeDetailActivity extends BaseActivity implements HomeDetailContra
     }
 
     //标题Holder
-    public class TitleHoder extends BaseRecyclerViewHolder<HomeDetailTileBean> {
+    public class TitleHolder extends BaseRecyclerViewHolder<HomeDetailTileBean> {
         @BindView(R.id.tv_title)
         TextView tvTitle;
 
-        public TitleHoder(int viewId, ViewGroup parent, int viewType) {
+        public TitleHolder(int viewId, ViewGroup parent, int viewType) {
             super(viewId, parent, viewType);
         }
 

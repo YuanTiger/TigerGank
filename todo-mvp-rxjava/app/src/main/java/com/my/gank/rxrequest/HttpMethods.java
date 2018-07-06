@@ -34,7 +34,7 @@ public class HttpMethods {
     private HttpMethods() {
         //设置缓存路径
         File cacheFile = BaseApp.context.getCacheDir();
-        //设置缓存大小
+        //设置缓存文件大小
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 5);
         //okHttp初始化
         OkHttpClient.Builder builder = new OkHttpClient.Builder()

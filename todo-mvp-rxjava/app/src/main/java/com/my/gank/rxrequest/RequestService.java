@@ -19,6 +19,7 @@ public interface RequestService {
     @GET("data/{type}/10/{pageNum}")
     Observable<BaseRxBean<List<GankItemBean>>> getTypeData(@Path("type") String type, @Path("pageNum") int pageNum);//获取制定类型的数据列表
 
+    @Headers("Cache-Control: max-stale=" + Integer.MAX_VALUE)
     @GET("history/content/10/{pageNum}")
     Observable<BaseRxBean<List<HomeAllBean>>> getHistory(@Path("pageNum") int pageNum);//获取之前天数数据
 
